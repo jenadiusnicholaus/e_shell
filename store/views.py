@@ -84,7 +84,6 @@ def add_to_cart(request, pk):
         return redirect('cart')
 
 
-
 class CartIterms(LoginRequiredMixin, View):
     def get(self, orgs, *args, **kwargs):
 
@@ -133,7 +132,6 @@ def remove_from_cart(request, pk):
     else:
         messages.info(request, "You don't have an active order")
         return redirect('/')
-
 
 
 @login_required

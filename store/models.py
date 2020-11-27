@@ -1,9 +1,17 @@
-from django.db import models
 
-# Create your models here.
 from django.db import models
 from django.urls import reverse
 from e_shell import settings
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200, null=True)
+
+    class Meta:
+        verbose_name_plural = 'product Category'
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
