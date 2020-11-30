@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-	<section id="cart_items">
+<section id="cart_items" xmlns="http://www.w3.org/1999/html">
 		<div class="container">
 
 			<div class="table-responsive cart_info">
@@ -59,22 +59,26 @@
 				<p>Choose if you would like to pickup your order yourself or have it delivered as well as have it insurance</p>
 			</div>
 			<div class="row">
+				<form action="/add_delivery_info/" method="post">
+					{% csrf_token%}
 				<div class="col-sm-4">
 					<div class="chose_area">
+
 						<ul class="user_option">
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" name="pickup_order_at_station" value="Pickup order at Station">
 								<label>Pickup order at Station</label>
 							</li>
 							<li>
-								<input type="checkbox">
+								<input type="checkbox"name="deliver_my_order" value="Deliver my order">
 								<label>Deliver my order</label>
 							</li>
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" name="insure_my_order" value="Insurance my order">
 								<label>Insurance my order</label>
 							</li>
 						</ul>
+
 
 					</div>
 				</div>
@@ -82,15 +86,15 @@
 					<div class="chose_area">
 						<ul class="user_option">
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" name="same_day_delivery" value="Same day delivery">
 								<label>Same day delivery</label>
 							</li>
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" name="express_delivery" value="Express delivery">
 								<label>Express delivery</label>
 							</li>
 							<li>
-								<input type="checkbox">
+								<input type="checkbox" name="standard_delivery" value="Standard delivery">
 								<label>Standard delivery</label>
 							</li>
 						</ul>
@@ -106,9 +110,10 @@
 							<li>Shipping Cost <span>Free</span></li>
 							<li>Total <span>${{ cart_items.get_cart_total|floatformat:2}}</span></li>
 						</ul>
-							<a class="btn btn-default check_out" href="{% url 'checkout'%}">Check Out</a>
+							<button type="submit" class="btn btn-default check_out" >Check Out</button>
 					</div>
 				</div>
+			</form>
 			</div>
 		</div>
 	</section><!--/#do_action-->

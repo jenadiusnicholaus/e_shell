@@ -1,150 +1,93 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-{%load static%}
-    <!-- Basic Page Needs
-    ================================================== -->
-    <title>Courseplus Learning HTML Template</title>
+	{% load static %}
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Courseplus - Professional Learning Management HTML Template">
-
-    <!-- Favicon -->
-    <link href="../assets/images/favicon.png" rel="icon" type="image/png">
-
-    <!-- CSS
-    ================================================== -->
-     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/night-mode.css' %}">
-    <link rel="stylesheet" href="{% static 'css/framework.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <!-- icons
-    ================================================== -->
-    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
-
-</head>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Login | E-Shopper</title>
+	<link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/prettyPhoto.css'%}" rel="stylesheet">
+    <link href="{% static 'css/price-range.css'%}" rel="stylesheet">
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+	<link href="{% static 'css/main.css'%}" rel="stylesheet">
+	<link href="{% static 'css/responsive.css'%}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="{% static 'js/html5shiv.js"></script>
+    <script src="{% static 'js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
 
 <body>
-    <!-- Content
-    ================================================== -->
-    <div uk-height-viewport class="uk-flex uk-flex-middle">
-        <div class="uk-width-2-3@m uk-width-1-2@s m-auto rounded">
-            <div class="uk-child-width-1-2@m uk-grid-collapse bg-gradient-grey" uk-grid>
+	<section id="form"><!--form-->
+		<div class="container">
+			<div style="background-image: linear-gradient(to right, red , yellow); border-radius: 15px;" class="row" >
+				<div  class="col-sm-12 col-sm-offset-1">
+					<h1><span style="color:yellow;">Vel</span>del</h1>
+				</div>
+				<div style="background-image: linear-gradient(to right, red , yellow); height:50%;  border-radius: 50px 20px;" class="col-sm-6 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2><strong>Rgister to your account</strong></h2>
+						<form action="." method="post" novalidate>
+							{% csrf_token%}
+							{{form}}
+							<span>
+								<input type="checkbox" class="checkbox">
+								Keep me signed in
+							</span>
+							<div class="row">
+								<div class="col-md-3">
+									<button style="background-image: linear-gradient(to right, red , yellow);" type="submit" class="btn btn-default">Register</button>
 
-                <!-- column one -->
-                <div class="uk-margin-auto-vertical uk-text-center uk-animation-scale-up p-3 uk-light">
-                    <i class=" uil-graduation-hat icon-large"></i>
-                    <h3 class="mb-4">LOGO</h3>
-                    <p>The Place You can learn Every Thing. </p>
+								</div>
+								<div class="col-md-3">
+									<p style="float:right;"> I have an account <a style="background-image: linear-gradient(to right, red , yellow);" href="/sign_in/" class="btn btn-default">login</a></p>
+								</div>
+							</div>
 
-                             {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                           {% if message.tags %}
-                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+					</div><!--/login form-->
+				</div>
 
-                              {% endif %}
-                              {{ message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                            </div>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                </div>
+					<div class="col-sm-4">
+						<div class="signup-form"><!--sign up form-->
+							 {% if messages %}
+						<ul class="messages" style="background-image: linear-gradient(to right, red , yellow);">
+							{% for message in messages %}
+						   {% if message.tags %}
+							<div  class="alert alert-{{message.tags}} " role="alert">
+							  {% endif %}
+							 <p > {{ message }} </p>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+							</div>
+							{% endfor %}
+						</ul>
+					{% endif %}
 
-                <!-- column two -->
-                    <div class="uk-card-default p-5 rounded">
-                        <div class="mb-4 uk-text-center">
-                            <h3 class="mb-0"> Create new Account</h3>
-                            <p class="my-2">Register to manage your account.</p>
-                        </div>
-                    <form action="." method="POST" class="uk-child-width-1-1 uk-grid-small" novalidate uk-grid>
-                        {%csrf_token%}
-
-                        <div>
-                            <div class="uk-form-group">
-                                <label class="uk-form-label"> Name</label>
-
-                                <div class="uk-position-relative w-100">
-
-                                    {{form}}
-                                </div>
-
-                            </div>
-                        </div>
-
-
-
-                        <div>
-                            <div class="mt-4 uk-flex-middle uk-grid-small" uk-grid>
-                                <div class="uk-width-expand@s">
-                                    <p> Dont have account <a href="{% url 'sign_in'%}">Sign in</a></p>
-                                </div>
-                                <div class="uk-width-auto@s">
-                                    <input type="submit" class="btn btn-default" value="Get Started"/>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div><!--  End column two -->
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Content -End
-    ================================================== -->
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+						<img width="300" height="300" src="{% static 'images/total/gear8.png'%}" alt="">
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
 
 
-    <!-- For Night mode -->
-    <script>
-        (function (window, document, undefined) {
-            'use strict';
-            if (!('localStorage' in window)) return;
-            var nightMode = localStorage.getItem('gmtNightMode');
-            if (nightMode) {
-                document.documentElement.className += ' night-mode';
-            }
-        })(window, document);
 
 
-        (function (window, document, undefined) {
-
-            'use strict';
-
-            // Feature test
-            if (!('localStorage' in window)) return;
-
-            // Get our newly insert toggle
-            var nightMode = document.querySelector('#night-mode');
-            if (!nightMode) return;
-
-            // When clicked, toggle night mode on or off
-            nightMode.addEventListener('click', function (event) {
-                event.preventDefault();
-                document.documentElement.classList.toggle('night-mode');
-                if (document.documentElement.classList.contains('night-mode')) {
-                    localStorage.setItem('gmtNightMode', true);
-                    return;
-                }
-                localStorage.removeItem('gmtNightMode');
-            }, false);
-
-        })(window, document);
-    </script>
-    <!-- javaScripts
-        ================================================== -->
-    <script src="{% static 'js/framework.js' %}"></script>
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/simplebar.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js'%}"></script>
+	<script src="{% static 'js/bootstrap.min.js'%}"></script>
+	<script src="{% static 'js/jquery.scrollUp.min.js'%}"></script>
+	<script src="{% static 'js/price-range.js'%}"></script>
+    <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
+    <script src="{% static 'js/main.js'%}"></script>
 </body>
-
 </html>

@@ -19,11 +19,25 @@ def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
 
 
-class StoreList(ListView):
+class Home(ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'store/home.html'
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(Home, self).get_context_data(**kwargs)
+        # Add in the publisher
+        category = Category.objects.all().order_by('-create_on')
+        context.update(
+            {'categories': category})
+        return context
+
+
+class SubCategoriesDateils(DetailView):
+    model = SubCategory
+    template_name = 'store/sub_categories_details.html'
 
 
 class ShopProduct(ListView):
@@ -68,21 +82,20 @@ def add_to_cart(request, pk):
         if order.order_items.filter(product__pk=product.pk).exists():
             order_item.quantity += 1
             order_item.save()
-            messages.info(request, 'this item quantity was updated ')
+            messages.success(request, 'this item quantity was updated ')
             return redirect('cart', )
         else:
-            messages.info(request, 'this item was added to your cart ')
 
             order.order_items.add(order_item)
+            messages.success(request, 'This item was added to your cart ')
             return redirect('cart', )
     else:
 
         order = Order.objects.create(customer=request.user, ref_id=create_ref_code())
 
         order.order_items.add(order_item)
-        messages.info(request, 'this item was added to your cart ')
+        messages.success(request, 'this item was added to your cart ')
         return redirect('cart')
-
 
 
 class CartIterms(LoginRequiredMixin, View):
@@ -95,8 +108,33 @@ class CartIterms(LoginRequiredMixin, View):
             }
             return render(self.request, 'store/cart.html', context=context)
         except ObjectDoesNotExist:
-            messages.error(self.request, 'You do not have thr active order')
+            messages.warning(self.request, 'You do not have thr active order')
             return redirect('/')
+
+
+class AddDeliveryInfo(View):
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(customer=request.user, ordered=False)
+        if request.method == "POST":
+            pickup_order_at_station = request.POST.get('pickup_order_at_station')
+            deliver_my_order = request.POST.get("deliver_my_order")
+            insure_my_order = request.POST.get('insure_my_order')
+            same_day_delivery = request.POST.get('same_day_delivery')
+            express_delivery = request.POST.get('express_delivery')
+
+            delivery_info = OrderDeliveryInfo()
+            delivery_info.pickup_order_at_station = pickup_order_at_station
+            delivery_info.deliver_my_order = deliver_my_order
+            delivery_info.insure_my_order = insure_my_order
+            delivery_info.same_day_delivery = same_day_delivery
+            delivery_info.express_delivery = express_delivery
+            delivery_info.save()
+
+            # update the order
+            order.deliveryInfo = delivery_info
+            order.save()
+            messages.success(self.request, 'Delivery info has been updated')
+            return redirect('checkout')
 
 
 @login_required
@@ -124,16 +162,15 @@ def remove_from_cart(request, pk):
             then finally we remove that oder from cart completely
             """
             order.order_items.remove(order_item)
-            messages.info(request, 'this item was removed from your cart ')
+            messages.success(request, 'this item was removed from your cart ')
             return redirect('cart', )
         else:
             # a message to the user that there is no that kind of query set
-            messages.info(request, 'this item was was not in your cart ')
+            messages.warning(request, 'this item was was not in your cart ')
             return redirect('/', )
     else:
-        messages.info(request, "You don't have an active order")
+        messages.warning(request, "You don't have an active order")
         return redirect('/')
-
 
 
 @login_required

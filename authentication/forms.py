@@ -5,7 +5,6 @@ class UserSignUpForm(forms.Form):
     username = forms.CharField()
     email = forms.EmailField()
     mobile = forms.IntegerField()
-    tin = forms.IntegerField()
     password = forms.CharField(widget=forms.PasswordInput())
 
 

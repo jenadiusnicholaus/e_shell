@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	{% load static %}
+	{% load cart_template_tags %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -23,74 +25,111 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114-precomposed.png'%}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72-precomposed.png'%}">
     <link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57-precomposed.png'%}">
+	<style>
+
+	</style>
 </head><!--/head-->
 
 <body>
-	<header id="header"><!--header-->
-		<div class="header_top"><!--header_top-->
-			<div class="container">
-				<div class="row">
+<!--header-->
+<div class="header_top"><!--header_top-->
+	<div class="container " style="width:88%;">
+		<div class="row">
 
-					<div class="col-sm-12">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+			<div class="col-sm-12">
+				<div class="social-icons pull-right">
+					<ul class="nav navbar-nav">
+						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+						<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+						<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div><div class="container " style="width:88%;">
+		<div class="row">
+
+			<div class="col-sm-12">
+				{% if messages %}
+                    <ul class="messages" style="background-image: linear-gradient(to right, red , yellow);">
+                        {% for message in messages %}
+                       {% if message.tags %}
+                        <div  class="alert alert-{{message.tags}} " role="alert">
+                          {% endif %}
+                         <p > {{ message }} </p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}</p>
+			</div>
+		</div>
+	</div>
+
+
+</div><!--/header_top-->
+
+
+<div class="header-middle"><!--header-middle-->
+	<div class="container" style="width:88%;">
+		<div class="row">
+			<div class="col-sm-4">
+
+				<div class="logo pull-left">
+					<a href="{%url 'home'%}"><img src="{% static 'images/home/logo.png'%}" alt="" /></a>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="shop-menu pull-right">
+					<ul class="nav navbar-nav">
+						<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+						<li><a href="{% url 'cart' %}"><span style="color:red;">{{request.user|cart_item_count}}</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
+						{% if user.is_authenticated %}
+						<li class="dropdown"><a href=""><i class="fa fa-user"></i>{{user.email}}</a></i>
+							<ul role="menu" class="sub-menu">
+								<li><a style="background-color:transparent; " href="">Profile</a></li>
+								<li><a style="background-color:transparent;" href="product-details.html">settings</a></li>
+								<li><a style="background-color:transparent;" href="checkout.html">terms</a></li>
+								<li><a style="background-color:transparent;" href="cart.html">Notifation</a></li>
+								<li><a style="background-color:transparent;" href="/sign_out/">logout</a></li>
 							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
+						</li>
 
-		</div><!--/header_top-->
-		
-		<div class="header-middle"><!--header-middle-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="{%url 'home'%}"><img src="{% static 'images/home/logo.png'%}" alt="" /></a>
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="{% url 'sign_in' %}"><i class="fa fa-lock"></i> Login</a></li>
-							</ul>
-						</div>
-					</div>
+						{% else %}
+						<li><a href="{% url 'sign_in' %}"><i class="fa fa-lock"></i>login</a></li>
+						<li><a href="{% url 'sign_up' %}"><i class="fa fa-lock"></i>Register</a></li>
+						{% endif %}
+					</ul>
 				</div>
 			</div>
-		</div><!--/header-middle-->
-	
-		<div class="header-bottom"><!--header-bottom-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
+		</div>
+	</div>
+</div><!--/header-middle-->
 
-					<div class="col-sm">
-						<div class="search_box">
-							<input type="text" placeholder="Search"/>
-						</div>
-					</div>
+<div class="header-bottom"><!--header-bottom-->
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 				</div>
+
+				{% include 'store/search.html'%}
 			</div>
-		</div><!--/header-bottom-->
-	</header><!--/header-->
+		</div>
+	</div><!--/header-bottom-->
+</div>
+
+	<!--/header-->
 
 
 	{% block content %}
@@ -148,11 +187,12 @@
 							</form>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
-		
+
+
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
@@ -161,16 +201,21 @@
 				</div>
 			</div>
 		</div>
-		
-	</footer><!--/Footer-->
-	
 
-  
+	</footer><!--/Footer-->
+
+
+
     <script src="{% static 'js/jquery.js'%}"></script>
 	<script src="{% static 'js/bootstrap.min.js'%}"></script>
 	<script src="{% static 'js/jquery.scrollUp.min.js'%}"></script>
 	<script src="{% static 'js/price-range.js'%}"></script>
     <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
+
+<script>
+
+</script>
+
 </body>
 </html>
