@@ -1,20 +1,38 @@
-
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.datetime_safe import datetime
+
 from e_shell import settings
 
 
 class Category(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
+    create_on = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        verbose_name_plural = 'product Category'
+        verbose_name_plural = 'Product Category'
+
+    def __str__(self):
+        return self.name
+
+
+class SubCategory(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=200, null=True)
+    create_on = models.DateTimeField(default=datetime.now)
+
+    class Meta:
+        verbose_name_plural = 'Product Sub Category'
 
     def __str__(self):
         return self.name
 
 
 class Product(models.Model):
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
@@ -52,10 +70,16 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'Ordered products'
+
     @property
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+
+    def __str__(self):
+        return f'{self.product.name} Quantity of {self.quantity}'
 
 
 class Order(models.Model):
@@ -65,6 +89,7 @@ class Order(models.Model):
     complete = models.BooleanField(default=False, null=True, blank=False)
     order_items = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False, null=True)
+    deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
     shippingAddress = models.ForeignKey('ShippingAddress', on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
 
@@ -89,11 +114,23 @@ class Order(models.Model):
 
     # Getting the total value of the item
     @property
-    def get_cart_items(self):
+    def get_cart_items_total(self):
         total_items = 0
         orderitems = self.order_items.all()
         total = sum([item.quantity for item in orderitems])
         return total
+
+
+class OrderDeliveryInfo(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    pickup_order_at_station = models.CharField(max_length=200, null=True)
+    deliver_my_order = models.CharField(max_length=200, null=True)
+    insure_my_order = models.CharField(max_length=200, null=True)
+    same_day_delivery = models.CharField(max_length=200, null=True)
+    express_delivery = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return 'Delivery info'
 
 
 class ShippingAddress(models.Model):

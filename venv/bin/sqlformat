@@ -1,4 +1,4 @@
-#!/home/jena/PycharmProjects/e_shell/venv/bin/python
+#!/home/jena/PycharmProjects/e_shell/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
