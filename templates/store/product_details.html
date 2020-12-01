@@ -88,7 +88,7 @@
 										</a>
 									</h4>
 								</div>
-								<div id="womens" class="panel-collapse collapse">
+								<div id="women" class="panel-collapse collapse">
 									<div class="panel-body">
 										<ul>
 											<li><a href="#">Engine Oil Petrol</a></li>
@@ -165,23 +165,32 @@
 							<div class="product-information"><!--/product-information-->
 								<img src="" class="newarrival" alt="" />
 								<h2>{{object.name}}</h2>
-								<p>Total Lubricants</p>
+								<p>Total: {{object.get_total}}</p>
 								<img src="" alt="" />
+								<form id="edit_product" method="post">
+									{% csrf_token %}
 								<span>
+									{% if object.discount%}
+									<span>Tshs {{object.discount}}</span>
+									<span style="color:gray;"><small><s>Tshs {{object.price}}</s><small></span>
+									{% else %}
 									<span>Tshs {{object.price}}</span>
-									<label>Quantity:</label>
-									<input type="text" value="3" />
-									<a href="{{object.get_add_to_cart_url}}" class="btn btn-fefault cart">
+									{%endif%}
+<!--									<label for="id_quantity">Quantity</label>-->
+<!--									<input type="text" name="quantity"   value="3" required="" id="id_quantity">-->
+<!--									<button type="submit" style="border-color:red;" class="btn btn-inline-primary">Edit product</button>-->
+								</span>
+								</form>
+								<p><b>Availability:</b> {{object.available}} In Stock</p>
+								<p><b>Condition:</b> {{object.label}}</p>
+								<p><b>Brand:</b> {{object.sub_category}}</p>
+								<p><b>Description:</b>{{object.description}}</p>
+								<a href=""><img src="" class="share img-responsive"  alt="" /></a>
+								<a href="{{object.get_add_to_cart_url}}" class="btn btn-default cart">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
-									</a>
-								</span>
-								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> E-SHOPPER</p>
-								<p><b>Description:</b> This is a sample description of this product of what it does and how to use it. It's the right product
-								if you think it's of any benefits to your needs that is, if it solves your problems</p>
-								<a href=""><img src="" class="share img-responsive"  alt="" /></a>
+								</a>
+
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->
@@ -282,4 +291,29 @@
 			</div>
 		</div>
 	</section>
+{% block javascript %}
+<script>
+	$("#edit_product").submit(function(e){
+	    e.preventDefault();
+        const serializedData = $(this).serialize();
+        $.ajax({
+            type:'POST',
+            url:"{% url 'edit_product' object.id %}",
+            data:serializedData,
+            success: function (response){
+                $('#edit_product').trigger('reset');
+                 alert(response["responseJSON"]["message"]);
+            },
+
+            error: function (response) {
+                // alert the error if any error occured
+                alert(response["responseJSON"]["error"]);
+            }
+        })
+    })
+</script>
+
+{% endblock javascript %}
+
+
 {% endblock content %}

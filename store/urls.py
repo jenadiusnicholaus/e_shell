@@ -15,4 +15,9 @@ urlpatterns = [
     # Delivery
     path('add_delivery_info/', views.AddDeliveryInfo.as_view(), name="add_delivery_info"),
     path('sub_categories/<int:pk>/', views.SubCategoriesDateils.as_view(), name="sub_categories"),
+    path('search/', views.search_product, name="search"),
+
+    path('edit_product/<int:pk>', views.edit_product, name="edit_product"),
+
+
 ]

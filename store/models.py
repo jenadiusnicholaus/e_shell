@@ -35,8 +35,12 @@ class Product(models.Model):
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
+    discount= models.CharField(max_length=200, null= True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
+    available = models.CharField(max_length=30, null=True, blank=True)
+    label = models.CharField(max_length=30, null=True)
+    description = models.TextField(max_length=20, null=True)
 
     def __str__(self):
         return self.name
@@ -64,7 +68,7 @@ class Product(models.Model):
 
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
     ordered = models.BooleanField(default=False, null=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
@@ -86,7 +90,6 @@ class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False, null=True, blank=False)
     order_items = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False, null=True)
     deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
