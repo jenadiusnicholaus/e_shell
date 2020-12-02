@@ -10,7 +10,7 @@ class Category(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=timezone.now)
-
+ 
     class Meta:
         verbose_name_plural = 'Product Category'
 
@@ -36,10 +36,14 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='product_images')
+    product_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('products_list')
 
     @property  # When an image isn't uploaded for a product, return empty string to avoid errors (called in home.html)
     def imageURL(self):

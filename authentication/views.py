@@ -6,7 +6,7 @@ from authentication.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from authentication.forms import UserSignUpForm, SinInForm
+from authentication.forms import UserSignUpForm, SinInForm, loginForm
 # Create your views here.
 from django.views.generic.base import View
 
@@ -86,3 +86,61 @@ def user_sign_out(request, ):
     # Return to homepage.
     messages.warning(request, 'Your signed Out, Login again')
     return redirect('sign_in')
+
+
+
+def staff_login(request):
+    if request.method == 'POST':
+        form = loginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+            if user is not None and user.is_staff:
+                login(request,user)
+                messages.success(request, 'succesfull Logged in')
+                return redirect('/products')
+            else:
+                messages.error(request, "Ivalid Username/Password Or You're not Staff")
+                return redirect('login')
+    form = loginForm()
+    context={
+     'form':form
+    }
+    return render(request, 'staff/login.html', context)
+
+
+def staff_logout(request, ):
+    logout(request)
+    messages.info(request, 'Your signed Out, Login again')
+    return redirect('login')
+
+
+    
+#========================================== for reference purpose===========================================#
+
+# def login(request):
+#     next = request.POST.get('next', request.GET.get('next', ''))
+#     if request.method == "POST":
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = auth.authenticate(username=username, password=password)
+#         if user is not None:
+#             if user.is_active:
+#                 login(request, user)
+#                 if next:
+#                     return HttpResponseRedirect(next)
+#                 return HttpResponseRedirect('/home')
+#             else:
+#                 return HttpResponse('Inactive user')
+#         else:
+#             return HttpResponseRedirect(settings.LOGIN_URL)
+#     return render(request, "login.html")
+
+#===========================================dont delete these codes are important================================#
+
+
+
+
+
+

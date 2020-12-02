@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'authentication',
     'store',
+    'staff',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,5 @@ LOGIN_URL = 'sign_in'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = "authentication.User"
+
+
