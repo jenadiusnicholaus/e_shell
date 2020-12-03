@@ -10,6 +10,9 @@ class Category(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=timezone.now)
+
+    def get_absolute_url(self):
+        return reverse('Product_category')
  
     class Meta:
         verbose_name_plural = 'Product Category'
@@ -23,6 +26,9 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=datetime.now)
+
+    def get_absolute_url(self):
+        return reverse('Product_sub_category')
 
     class Meta:
         verbose_name_plural = 'Product Sub Category'

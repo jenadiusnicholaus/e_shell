@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
-               <!--  <nav class="sidebar-nav left-sidebar-menu-pro">
+                <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
                         <li class="active">
                             <a class="has-arrow" href="index.html">
@@ -99,9 +99,10 @@
                                    <span class="mini-click-non">Ecommerce</span>
                                 </a>
                             <ul class="submenu-angle" aria-expanded="true">
-                                <li><a title="Dashboard v.1" href="index.html"><span class="mini-sub-pro">Dashboard v.1</span></a></li>
-                                <li><a title="Dashboard v.2" href="index-1.html"><span class="mini-sub-pro">Dashboard v.2</span></a></li>
-                                <li><a title="Dashboard v.3" href="index-2.html"> <span class="mini-sub-pro">Dashboard v.3</span></a></li>
+                                <li><a title="Dashboard v.1" href="{% url 'products_list' %}"><span class="mini-sub-pro">ProductList</span></a></li>
+                                <li><a title="Dashboard v.2" href="{% url 'Product_category' %}"><span class="mini-sub-pro">CategoryList</span></a></li>
+                                <li><a title="Dashboard v.2" href="{% url 'Product_sub_category' %}"><span class="mini-sub-pro">Sub CategoryList</span></a></li>
+                      <!--           <li><a title="Dashboard v.3" href="index-2.html"> <span class="mini-sub-pro">Dashboard v.3</span></a></li>
                                 <li>
                                     <a title="Product List" href="{% url 'products_list' %}">
                                         <span class="mini-sub-pro">Product List</span>
@@ -195,9 +196,9 @@
                                 <li><a title="Lock" href="lock.html"><span class="mini-sub-pro">Lock</span></a></li>
                                 <li><a title="Password Recovery" href="password-recovery.html"><span class="mini-sub-pro">Password Recovery</span></a></li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
-                </nav> -->
+                </nav>
             </div>
         </nav>
     </div>

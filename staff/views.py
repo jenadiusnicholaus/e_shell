@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404, redirect
-from store.models import Product
+from store.models import Product,Category,SubCategory
 from django.views.generic import UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
@@ -80,5 +80,79 @@ def delete_product(request, id):
 	product = get_object_or_404(Product, id=id)
 	product.delete()
 	return redirect('products_list')
+
+
+
+def Product_category(request):
+	category = Category.objects.all()
+	context = {
+	 'category':category
+	}
+	return render(request, 'staff/product-category.html',context)
+
+
+class CategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+    model = Category
+    template_name = 'staff/category-edit.html'
+    fields = ['name']
+    #form_class = forms.ProductForm
+    # success_url = '/'
+    login_url = 'login'
+    
+
+    def form_valid(self, form):
+        form.instance.user =self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        category=self.get_object()
+        if self.request.user == category.user:
+            return True
+        return False
+
+
+
+def delete_category(request, id):
+	product = get_object_or_404(Category, id=id)
+	product.delete()
+	return redirect('Product_category')
+
+
+
+
+def Product_sub_category(request):
+	sub_category = SubCategory.objects.all()
+	context = {
+	 'sub_category':sub_category
+	}
+	return render(request, 'staff/product-sub-category.html',context)
+
+
+class SubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+    model = SubCategory
+    template_name = 'staff/sub-category-edit.html'
+    fields = ['name']
+    #form_class = forms.ProductForm
+    # success_url = '/'
+    login_url = 'login'
+    
+
+    def form_valid(self, form):
+        form.instance.user =self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        sub_category=self.get_object()
+        if self.request.user == sub_category.user:
+            return True
+        return False
+
+
+
+def delete_sub_category(request, id):
+	product = get_object_or_404(Category, id=id)
+	product.delete()
+	return redirect('Product_sub_category')
+
 
 
