@@ -8,101 +8,49 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+						{% for category in categories %}
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+										<a data-toggle="collapse" data-parent="#accordian" href="#{{category.id}}">
 											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Total Lubricants
+											{{category.name}}
 										</a>
 									</h4>
 								</div>
-								<div id="sportswear" class="panel-collapse collapse">
+								<div id="{{category.id}}" class="panel-collapse collapse">
 									<div class="panel-body">
 										<ul>
-											<li><a href="#">Engine Oil Petrol</a></li>
-											<li><a href="#">Engine Oil Diesel</a></li>
-											<li><a href="#">Diff Oil</a></li>
-											<li><a href="#">Gear box Oil</a></li>
-											<li><a href="#">Brake fluid </a></li>
-											<li><a href="#">Air freshener </a></li>
-											<li><a href="#">Others </a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											ORYX Lubricants
-										</a>
-									</h4>
-								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Engine Oil Petrol</a></li>
-											<li><a href="#">Engine Oil Diesel</a></li>
-											<li><a href="#">Def Oil</a></li>
-											<li><a href="#">Gear box Oil</a></li>
-											<li><a href="#">Brake fluid </a></li>
-											<li><a href="#">Air freshener </a></li>
-											<li><a href="#">Others </a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
+											{% for sub_categories in category.subcategory_set.all %}
+{#                                                href="{% url 'sub_categories' sub_categories.id %} "#}
+											<li><a href="#demo" data-toggle="collapse" >{{sub_categories.name}}
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            </a>
 
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#womens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											PUMA Lubricants
-										</a>
-									</h4>
-								</div>
-								<div id="womens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Engine Oil Petrol</a></li>
-											<li><a href="#">Engine Oil Diesel</a></li>
-											<li><a href="#">Def Oil</a></li>
-											<li><a href="#">Gear box Oil</a></li>
-											<li><a href="#">Brake fluid </a></li>
-											<li><a href="#">Air freshener </a></li>
-											<li><a href="#">Others </a></li>
+                                              <div id="demo" class="collapse">
+                                                  <ul>
+                                                      {% for subsubcategory in sub_categories.subsubcategory_set.all %}
+                                                       <li>
+                                                           <a href="{% url 'sub_categories' subsubcategory.id %}">{{ subsubcategory.name }}</a>
+                                                      </li>
+                                                      {% endfor %}
+
+
+
+                                                  </ul>
+                                              </div>
+                                             </li>
+											{%empty%}
+											<div class="alert alert-info" role="alert">
+  												No sub categories for now
+											</div>
+											{% endfor %}
+
 										</ul>
 									</div>
 								</div>
 							</div>
-
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#camel">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											MOGAS Lubricants
-										</a>
-									</h4>
-								</div>
-								<div id="women" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="#">Engine Oil Petrol</a></li>
-											<li><a href="#">Engine Oil Diesel</a></li>
-											<li><a href="#">Def Oil</a></li>
-											<li><a href="#">Gear box Oil</a></li>
-											<li><a href="#">Brake fluid </a></li>
-											<li><a href="#">Air freshener </a></li>
-											<li><a href="#">Others </a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-
+							{%endfor%}
 						</div><!--/category-products-->
 
 
