@@ -27,11 +27,10 @@ class UserSignUp(View):
             password = form.cleaned_data.get('password')
             password2 = form.cleaned_data.get('repeat_password')
             mobile = form.cleaned_data.get('mobile')
-            tin = form.cleaned_data.get('tin')
 
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 # if password == password2:
-                User.objects.create_user(email, password, mobile=mobile, tin=tin, username=username, is_active=False)
+                User.objects.create_user(email, password, mobile=mobile, username=username, is_active=False)
                 # it going to be userd later in the email sending
                 user = User.objects.get(username=username, email=email)
                 # TODO send email address to activate a user if you want it to

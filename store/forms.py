@@ -27,3 +27,10 @@ class CheckoutForm(forms.Form):
         'rows': 2,
         'placeholder': 'Description'
     }))
+
+
+class EditProductForm(forms.Form):
+    quantity = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'value':'3',
+    }))

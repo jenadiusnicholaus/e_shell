@@ -5,18 +5,40 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-
-# Create your views here.
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-
-from .forms import CheckoutForm
+from .forms import CheckoutForm, EditProductForm
 from .models import *
+from django.core import serializers
 
 
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
+
+def search_product(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+
+        product_submitted = request.GET.get('submit')
+
+        if query is not None:
+            lookups = Q(name__icontains=query) | Q(name__icontains=query)
+
+            results = Product.objects.filter(lookups).distinct()
+
+            context = {'results': results,
+                       'submitbutton': product_submitted}
+
+            return render(request, 'store/search_result.html', context)
+
+        else:
+            return render(request, 'store/search_result.html')
+    else:
+        return render(request, 'store/search_result.html')
 
 
 class Home(ListView):
@@ -51,8 +73,66 @@ class Product_details(DetailView):
     model = Product
     template_name = 'store/product_details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(Product_details, self).get_context_data(**kwargs)
+        form = EditProductForm()
+        context.update(
+            {'form': form}
+        )
+        return context
 
-#
+
+@login_required()
+def edit_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.is_ajax and request.method == 'POST':
+        # get the form data
+        form = EditProductForm(request.POST)
+        # save the data and after fetch the object in instance
+        if form.is_valid():
+            instance = form.cleaned_data.get('quantity')
+            # get the item to edit
+            # TODO
+            try:
+                # trying to edit a product before getting to cart
+                order_item, created = OrderItem.objects.get_or_create(
+                    product=product,
+                    customer=request.user,
+                    ordered=False
+                )
+                order_qs = Order.objects.get(customer=request, ordered=False)
+                if order_qs.exists():
+                    order = order_qs[0]
+                    if order.order_items.filter(product__pk=product.pk).exists():
+                        order_item.quantity += int(instance)
+                        messages.success(request, 'editing is successfully ')
+                        return redirect('product_details', pk = product.pk)
+                    else:
+                        order.order_items.add(order_item)
+                        messages.success(request, 'order added to order items ')
+                        return redirect('product_details', pk=product.pk)
+
+                else:
+                    order = Order.objects.create(
+                        customer =request.user,
+                        ordered=False,
+                    )
+                    order.order_items.add(order_item)
+                    messages.success(request, 'cart was create successfully')
+                    return redirect('cart')
+            except ObjectDoesNotExist as e:
+                raise e
+            # serialize in new friend object in json
+            # serialize_instance = serializers.serialize('json', [instance])
+            # send to client side.
+            # return JsonResponse({"messages": 'product has been edited successfully'},
+            #                     status=200)
+        else:
+            return JsonResponse({"error": form.errors}, status=400)
+    return JsonResponse({"error": " form no valid"}, status=400)
+
+
+@login_required()
 def cart(request):
     # checking if the user is authenticated
     if request.user.is_authenticated:
@@ -73,7 +153,7 @@ def cart(request):
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
     order_item, created = OrderItem.objects.get_or_create(
-        user=request.user,
+        customer=request.user,
         product=product
     )
     order_qs = Order.objects.filter(customer=request.user, ordered=False)
@@ -155,7 +235,7 @@ def remove_from_cart(request, pk):
             """
             order_item = OrderItem.objects.filter(
                 product=product,
-                user=request.user,
+                customer=request.user,
                 ordered=False
             )[0]
             """
@@ -185,7 +265,7 @@ def remove_single_item_from_cart(request, pk):
         if order.order_items.filter(product__pk=product.pk).exists():
             order_item = OrderItem.objects.filter(
                 product__pk=product.pk,
-                user=request.user,
+                customer=request.user,
                 ordered=False
             )[0]
             if order_item.quantity > 1:
