@@ -7,13 +7,13 @@ from e_shell import settings
 
 
 class Category(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=timezone.now)
 
     def get_absolute_url(self):
         return reverse('Product_category')
- 
+
     class Meta:
         verbose_name_plural = 'Product Category'
 
@@ -22,7 +22,7 @@ class Category(models.Model):
 
 
 class SubCategory(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=datetime.now)
@@ -34,17 +34,30 @@ class SubCategory(models.Model):
         verbose_name_plural = 'Product Sub Category'
 
     def __str__(self):
-        return self.name
+        return f'{self.name} from {self.category.name}'
+
+
+class SubSubCategory(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=200, null=True)
+    create_on = models.DateTimeField(default=datetime.now)
+
+    class Meta:
+        verbose_name_plural = 'Product Sub sub Category'
+
+    def __str__(self):
+        return f'{self.name}from {self.subcategory.name}'
 
 
 class Product(models.Model):
-    sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
-    discount= models.CharField(max_length=200, null= True, blank=True)
+    discount = models.CharField(max_length=200, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image = models.ImageField(upload_to='product_images')
-    product_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True)
     available = models.CharField(max_length=30, null=True, blank=True)
     label = models.CharField(max_length=30, null=True)
     description = models.TextField(max_length=20, null=True)
@@ -52,15 +65,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('products_list')
-
     @property  # When an image isn't uploaded for a product, return empty string to avoid errors (called in home.html)
     def imageURL(self):
         try:
             url = self.image.url
         except:
-            url = ""
+            url = " "
         return url
 
     def get_add_to_cart_url(self):
@@ -75,6 +85,7 @@ class Product(models.Model):
 
     def get_remove_single_item_from_cart(self):
         return reverse('remove_single_item_from_cart', kwargs={'pk': self.pk})
+
 
 
 class OrderItem(models.Model):

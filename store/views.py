@@ -58,7 +58,7 @@ class Home(ListView):
 
 
 class SubCategoriesDateils(DetailView):
-    model = SubCategory
+    model = SubSubCategory
     template_name = 'store/sub_categories_details.html'
 
 

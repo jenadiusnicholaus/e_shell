@@ -63,7 +63,7 @@
                                    <!--  <td>$750</td>
                                     <td>Out Of Stock</td> -->
                                     <!-- <td>{{ data.price }}</td> -->
-                                   {% if data.user == request.user %}
+                                   {% if data.author == request.user %}
                                      <td>
                                         <a style="color:white" href="{% url 'edit_category' data.id %}"><button  data-toggle="tooltip" title="Edit" class="pd-setting-ed">
                                             <i class="fa fa-edit" aria-hidden="true"></i>

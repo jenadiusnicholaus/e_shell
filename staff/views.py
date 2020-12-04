@@ -42,7 +42,7 @@ def add_product(request):
 			product.name = request.POST.get('name')
 			product.price = request.POST.get('price')
 			product.image = request.FILE.get('image')
-			product.product_by = request.user
+			product.author = request.user
 			product.save()
 			print(product)
 			return redirect('products_list')
@@ -71,7 +71,7 @@ class ProductUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     
     def test_func(self):
         product=self.get_object()
-        if self.request.user == product.product_by:
+        if self.request.user == product.author:
             return True
         return False
 
@@ -106,7 +106,7 @@ class CategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     
     def test_func(self):
         category=self.get_object()
-        if self.request.user == category.user:
+        if self.request.user == category.author:
             return True
         return False
 
@@ -143,7 +143,7 @@ class SubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView)
     
     def test_func(self):
         sub_category=self.get_object()
-        if self.request.user == sub_category.user:
+        if self.request.user == sub_category.author:
             return True
         return False
 
