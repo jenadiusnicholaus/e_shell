@@ -80,6 +80,7 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+
 								{% for category in categories %}
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -94,23 +95,9 @@
 									<div class="panel-body">
 										<ul>
 											{% for sub_categories in category.subcategory_set.all %}
-{#                                                href="{% url 'sub_categories' sub_categories.id %} "#}
-											<li><a href="#demo" data-toggle="collapse" >{{sub_categories.name}}
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            </a>
+											<li>
+												<a href="{% url 'sub_categories' sub_categories.id %}" >{{sub_categories.name}}</a>
 
-                                              <div id="demo" class="collapse">
-                                                  <ul>
-                                                      {% for subsubcategory in sub_categories.subsubcategory_set.all %}
-                                                       <li>
-                                                           <a href="{% url 'sub_categories' subsubcategory.id %}">{{ subsubcategory.name }}</a>
-                                                      </li>
-                                                      {% endfor %}
-
-
-
-                                                  </ul>
-                                              </div>
                                              </li>
 											{%empty%}
 											<div class="alert alert-info" role="alert">
@@ -124,8 +111,6 @@
 							</div>
 							{%endfor%}
 						</div><!--/category-products-->
-
-
 
 						<div class="price-range"><!--price-range-->
 							<h2>Price Range</h2>
@@ -400,87 +385,24 @@
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner">
 								<div class="item active">
+									{% for recommend in recommend %}
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
 												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://africaautomotivenews.com/wp-content/uploads/2019/12/Sinopec-Lubricant.jpg" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+													<img style=" height:200px; width:200px;" src="{{recommend.get_individual_product_image}}" alt="" />
+													<h2>{{recommend.get_individual_product_price}}</h2>
+													<p></p>
+													<a href="{{recommend.get_add_to_cart}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 												</div>
 
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://africaautomotivenews.com/wp-content/uploads/2019/12/Sinopec-Lubricant.jpg" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
+									{%endfor%}
 
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://africaautomotivenews.com/wp-content/uploads/2019/12/Sinopec-Lubricant.jpg" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
 								</div>
-								<div class="item">
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://2.bp.blogspot.com/-Syi6w-E9Hmg/Uvh1X8icO3I/AAAAAAAAEZ8/ep0hzh1Ppbk/s1600/Product+shot+1.jpg" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
 
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrXoMMYF4bM54Eq6_2pCgHJLbEE_kd3xhHfw&usqp=CAU" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img style=" height:300px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9d7XUVUlJSYBhXQQ75_b7neIIRfjAHiFC3g&usqp=CAU" alt="" />
-													<h2>Tshs56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-
-											</div>
-										</div>
-									</div>
-								</div>
 							</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>

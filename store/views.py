@@ -51,15 +51,49 @@ class Home(ListView):
         # Call the base implementation first to get a context
         context = super(Home, self).get_context_data(**kwargs)
         # Add in the publisher
+        recommend_product = OrderItem.objects.filter(ordered=False).order_by('-date_added')
         category = Category.objects.all().order_by('-create_on')
         context.update(
-            {'categories': category})
+            {
+                'categories': category,
+                'recommend': recommend_product,
+
+            }
+        )
         return context
 
 
 class SubCategoriesDateils(DetailView):
-    model = SubSubCategory
+    model = SubCategory
     template_name = 'store/sub_categories_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubCategoriesDateils, self).get_context_data()
+        sub_sub_categories = SubSubCategory.objects.all()
+        recommend_product = OrderItem.objects.filter(ordered=False).order_by('-date_added')
+        context.update(
+            {'sub_sub_categories': sub_sub_categories,
+             'recommend': recommend_product,
+
+             }
+
+        )
+        return context
+
+
+class SubSubCategoriesDateils(DetailView):
+    model = SubSubCategory
+    template_name = 'store/subsubcategory.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubSubCategoriesDateils, self).get_context_data()
+        recommend_product = OrderItem.objects.filter(ordered=False).order_by('-date_added')
+        context.update(
+            {
+                'recommend': recommend_product,
+            }
+        )
+        return context
 
 
 class ShopProduct(ListView):
@@ -69,15 +103,20 @@ class ShopProduct(ListView):
     paginate_by = 10
 
 
-class Product_details(DetailView):
+class ProductDetails(DetailView):
     model = Product
     template_name = 'store/product_details.html'
 
     def get_context_data(self, **kwargs):
-        context = super(Product_details, self).get_context_data(**kwargs)
+        context = super(ProductDetails, self).get_context_data(**kwargs)
+        category = Category.objects.all().order_by('-create_on')
+        recommend_product = OrderItem.objects.filter(ordered=False).order_by('-date_added')
         form = EditProductForm()
         context.update(
-            {'form': form}
+            {'form': form,
+             'categories': category,
+             'recommend': recommend_product
+             }
         )
         return context
 
@@ -106,7 +145,7 @@ def edit_product(request, pk):
                     if order.order_items.filter(product__pk=product.pk).exists():
                         order_item.quantity += int(instance)
                         messages.success(request, 'editing is successfully ')
-                        return redirect('product_details', pk = product.pk)
+                        return redirect('product_details', pk=product.pk)
                     else:
                         order.order_items.add(order_item)
                         messages.success(request, 'order added to order items ')
@@ -114,7 +153,7 @@ def edit_product(request, pk):
 
                 else:
                     order = Order.objects.create(
-                        customer =request.user,
+                        customer=request.user,
                         ordered=False,
                     )
                     order.order_items.add(order_item)

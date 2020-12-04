@@ -8,7 +8,7 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-						{% for category in categories %}
+							{% for category in categories %}
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
@@ -22,23 +22,9 @@
 									<div class="panel-body">
 										<ul>
 											{% for sub_categories in category.subcategory_set.all %}
-{#                                                href="{% url 'sub_categories' sub_categories.id %} "#}
-											<li><a href="#demo" data-toggle="collapse" >{{sub_categories.name}}
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                            </a>
+											<li>
+												<a href="{% url 'sub_categories' sub_categories.id %}" >{{sub_categories.name}}</a>
 
-                                              <div id="demo" class="collapse">
-                                                  <ul>
-                                                      {% for subsubcategory in sub_categories.subsubcategory_set.all %}
-                                                       <li>
-                                                           <a href="{% url 'sub_categories' subsubcategory.id %}">{{ subsubcategory.name }}</a>
-                                                      </li>
-                                                      {% endfor %}
-
-
-
-                                                  </ul>
-                                              </div>
                                              </li>
 											{%empty%}
 											<div class="alert alert-info" role="alert">
@@ -149,82 +135,27 @@
 
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner">
+								{% for recommend in recommend %}
 								<div class="item active">
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
 												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+													<img style=" height:200px; width:200px;" src="{{recommend.get_individual_product_image}}" alt="" />
+													<h2>{{recommend.get_individual_product_price}}</h2>
+													<p></p>
+													<a href="{{recommend.get_add_to_cart}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 												</div>
+
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
+
 								</div>
-								<div class="item">
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								{%endfor%}
+
+
+
 							</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>
