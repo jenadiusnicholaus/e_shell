@@ -76,38 +76,14 @@
 <section>
 		<div class="container" style="width:88%;">
 			<div class="row">
-				<div class="col-sm-3">
-					<div class="left-sidebar">
-						<h2>{{object.name}}</h2>
+			<div class="row">
 
-						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							{% for subsubcategory in object.subsubcategory_set.all%}
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a  href="{% url 'sub_sub_categories' subsubcategory.id %}">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											{{subsubcategory.name}}
-										</a>
-									</h4>
-								</div>
-
-							</div>
-							{% endfor %}
-
-						</div><!--/category-products-->
-
-
-
-					</div>
-				</div>
-
-				<div class="col-sm-9 padding-right">
+				<div class="col-sm-12 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">{{object.name}}</h2>
+						
 
-						{% for product in object.subsubcategory_set.all %}
-							{% for sub in product.product_set.all %}
+							{% for sub in object.product_set.all %}
 
 							<div style="margin-right:-20px;" class="col-sm-3 ">
 								<div style="width:300px;" class="product-image-wrapper">
@@ -125,14 +101,14 @@
 													<p>{{sub.name}}</p>
 													<p>{{sub.sub_category}}</p>
 													<a href="{{sub.get_add_to_cart_url}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-													<a href="{% url 'product_details' product.pk %}" class="btn btn-default add-to-cart">Read more</a>
+													<a href="{% url 'product_details' sub.pk %}" class="btn btn-default add-to-cart">Read more</a>
 												</div>
 											</div>
 									</div>
 								</div>
 							</div>
 
-							{% endfor %}
+
 						{% endfor %}
 
 
@@ -368,7 +344,6 @@
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner">
 								{% for recommend in recommend %}
-								<div class="item active">
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
@@ -382,9 +357,7 @@
 											</div>
 										</div>
 									</div>
-
-								</div>
-								{%endfor%}
+									{%endfor%}
 
 							</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">

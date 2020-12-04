@@ -25,9 +25,44 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114-precomposed.png'%}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72-precomposed.png'%}">
     <link rel="apple-touch-icon-precomposed" href="{% static 'images/ico/apple-touch-icon-57-precomposed.png'%}">
-	<style>
+	<style type="text/css">
 
-	</style>
+      .accordion-icon {
+    font-family: FontAwesome;
+    color: #ffffff;
+  }
+ .panel-collapse .accordion-icon {
+    color: rgb(51, 122, 183);
+  }
+
+  #accordion1 a {
+
+    text-decoration: none;
+  }
+#accordion1 .panel-heaing { background: ; }
+#accordion1 .panel-collapse .list-group-item { background: #f9f9f9; }
+#accordion1 .panel-collapse .list-group-item:hover { background: #f0f0f0; }
+
+  #accordion1 .panel-heading a > .accordion-icon:after {
+    content:"\f068"; // minus
+    color: #ffffff;
+  }
+  #accordion1 .panel-heading a.collapsed > .accordion-icon:after {
+    content:"\f067"; // plus
+    color: #ffffff;
+  }
+
+  #accordion1 .panel-collapse .list-group-item > a > .accordion-icon:after {
+    content:"\f056"; // rounded minus
+    color: #000000;
+  }
+  #accordion1 .panel-collapse .list-group-item > a.collapsed > .accordion-icon:after {
+    content:"\f055"; // rounded plus
+    color: #000000;
+  }
+
+
+  </style>
 </head><!--/head-->
 
 <body>
@@ -212,6 +247,38 @@
 	<script src="{% static 'js/price-range.js'%}"></script>
     <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+  var activeAccordion = localStorage.getItem("accordion");
+  if(activeAccordion){
+    $('#accordion1 > .panel:eq('+activeAccordion+') .collapse').toggleClass('in');
+    localStorage.removeItem("accordion");
+  }
+
+  $('#accordion1').find('.panel-heading > a').click(function (){
+
+      localStorage.setItem("accordion", $(this).closest('.panel').index());
+      //Expand or collapse this panel
+      $(this).next().toggleClass('in');
+
+      //Hide the other panels
+      //$(".collapse").not($(this).next()).removeClass('in');
+  });
+
+    $('#accordion1 .collapse input:checkbox').change(function(){
+      if($(this).is(":checked")) {
+        $('.collapse').addClass("in");
+      } else {
+        $('.collapse').removeClass("in");
+      }
+    });
+
+});
+
+
+</script>
 
 {% block javascript %}
 {% endblock javascript %}
