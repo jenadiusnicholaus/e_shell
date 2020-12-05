@@ -80,7 +80,7 @@
 					<div class="left-sidebar">
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							{% for category in categories %}
+								{% for category in categories %}
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
@@ -94,7 +94,24 @@
 									<div class="panel-body">
 										<ul>
 											{% for sub_categories in category.subcategory_set.all %}
-											<li><a href="{% url 'sub_categories' sub_categories.id %} ">{{sub_categories.name}}</a></li>
+{#                                                href="{% url 'sub_categories' sub_categories.id %} "#}
+											<li><a href="#demo" data-toggle="collapse" >{{sub_categories.name}}
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            </a>
+
+                                              <div id="demo" class="collapse">
+                                                  <ul>
+                                                      {% for subsubcategory in sub_categories.subsubcategory_set.all %}
+                                                       <li>
+                                                           <a href="{% url 'sub_categories' subsubcategory.id %}">{{ subsubcategory.name }}</a>
+                                                      </li>
+                                                      {% endfor %}
+
+
+
+                                                  </ul>
+                                              </div>
+                                             </li>
 											{%empty%}
 											<div class="alert alert-info" role="alert">
   												No sub categories for now
