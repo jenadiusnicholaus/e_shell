@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'e_shell.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'e_shellDB',
+        'NAME': 'e_shelldb',
         'USER': 'totaltegeta',
         'PASSWORD': 'Totaltegeta',
         'HOST': 'localhost',
