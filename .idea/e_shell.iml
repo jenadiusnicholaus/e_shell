@@ -14,7 +14,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/localvenv" />
     </content>
     <orderEntry type="jdk" jdkName="Unknown virtualenv at ~/PycharmProjects/e_shell/venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
