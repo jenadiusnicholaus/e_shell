@@ -24,7 +24,7 @@ SECRET_KEY = '0hfe(e_vw4(f+re+1$0qsd)8*3yc(#@$q+umczdl=#5j!$-94o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['157.245.44.120']
+ALLOWED_HOSTS = ['127.0.0.1', '157.245.44.120']
 
 # Application definition
 
@@ -93,7 +93,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -153,5 +152,3 @@ LOGIN_URL = 'sign_in'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = "authentication.User"
-
-
