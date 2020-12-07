@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
-    mobile = models.IntegerField(default=0, null=True, blank=True)
+    mobile = models.CharField(max_length=15, null=True, blank=True)
 
     objects = UserManager()
 

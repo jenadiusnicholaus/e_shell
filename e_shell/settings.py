@@ -24,7 +24,7 @@ SECRET_KEY = '0hfe(e_vw4(f+re+1$0qsd)8*3yc(#@$q+umczdl=#5j!$-94o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '157.245.44.120']
 
 # Application definition
 
@@ -36,9 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+
+    # our own app
     'authentication',
     'store',
     'staff',
+    # third part
 ]
 
 MIDDLEWARE = [
@@ -75,10 +79,22 @@ WSGI_APPLICATION = 'e_shell.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'e_shelldb',
+        'USER': 'totaltegeta',
+        'PASSWORD': 'Totaltegeta',
+        'HOST': 'localhost',
+
+        'PORT': '',
     }
 }
 
@@ -141,5 +157,3 @@ LOGIN_URL = 'sign_in'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = "authentication.User"
-
-
