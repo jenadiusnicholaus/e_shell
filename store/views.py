@@ -29,9 +29,12 @@ def search_product(request):
             lookups = Q(name__icontains=query) | Q(name__icontains=query)
 
             results = Product.objects.filter(lookups).distinct()
+            recommend_product = OrderItem.objects.filter(ordered=False).order_by('-date_added')
 
             context = {'results': results,
-                       'submitbutton': product_submitted}
+                       'submitbutton': product_submitted,
+                       'recommend': recommend_product,
+                       }
 
             return render(request, 'store/search_result.html', context)
 
