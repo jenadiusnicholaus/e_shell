@@ -17,7 +17,15 @@
       <excludeFolder url="file://$MODULE_DIR$/localvenv" />
       <excludeFolder url="file://$MODULE_DIR$/localenv" />
     </content>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Unknown virtualenv at ~/PycharmProjects/e_shell/venv" jdkType="Python SDK" />
+>>>>>>> dea6e1078619a4c8444e5df8a2631a3b72c136c1
+=======
     <orderEntry type="jdk" jdkName="Python 3.8 (e_shell)" jdkType="Python SDK" />
+>>>>>>> 625381136d19b8267998106b75a801e563b6df38
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
