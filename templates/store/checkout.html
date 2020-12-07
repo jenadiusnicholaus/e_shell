@@ -10,18 +10,15 @@
 				</ol>
 			</div><!--/breadcrums-->
 
-
-
-
 			<div class="register-req">
 				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
 			</div><!--/register-req-->
 
 			<div class="shopper-informations">
 				<div class="row">
-<<<<<<< HEAD
-					<div class="col-sm-8 clearfix">
-=======
+
+					<div class="col-sm-12 clearfix">
+
 					<div class="col-sm-3">
 						<div class="shopper-info">
 							<p>Shopper Information</p>
@@ -44,7 +41,7 @@
 						</div>
 					</div>
 					<div class="col-sm-5 clearfix">
->>>>>>> 625381136d19b8267998106b75a801e563b6df38
+
 						<div class="bill-to">
 							<p>Bill To</p>
 							<div class="form-one">
@@ -138,61 +135,66 @@
 							</td>
 						</tr>
 					{%endfor%}
-
-
 					</tbody>
 				</table>
 			</div>
 			<div class="payment-options">
-					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
-					</span>
-					<span>
-						<label><input type="checkbox"> Check Payment</label>
-					</span>
-					<span>
-						<label><input type="checkbox"> Paypal</label>
-					</span>
+				<h3>Payments options</h3>
+<!--					<span>-->
+<!--						<label><input type="checkbox"> Direct Bank Transfer</label>-->
+<!--					</span>-->
+<!--					<span>-->
+<!--						<label><input type="checkbox"> Check Payment</label>-->
+<!--					</span>-->
+<!--					<span>-->
+<!--						<label><input type="checkbox"> Paypal</label>-->
+<!--					</span>-->
+<!--				<h3>Or</h3>-->
+				<table id="tablePreview" class="table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Select</th>
+							<th> Mobile Money payment options</th>
+							<th> Our Wakala number </th>
+						</tr>
+					</thead>
+				  <!--Table head-->
+				  <!--Table body-->
+					<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td><span><label><input type="checkbox"> </label></span></td>
+						<td><img  src="{% static 'images/mobile/airtelmoney.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+						<td>#784979037</td>
+					</tr>
+					<tr>
+						<th scope="row">2</th>
+						<td><span><label><input type="checkbox"> </label></span></td>
+						<td><img  src="{% static 'images/mobile/TigoPesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+					  	<td>#0677073037</td>
+
+					</tr>
+					<tr>
+					  	<th scope="row">3</th>
+						<td><span><label><input type="checkbox"> </label></span></td>
+					  	<td><img  src="{% static 'images/mobile/mpesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+					  	<td>#5154661</td>
+					</tr>
+					<td colspan="4">
+						<div class="row mt-0">
+					<div class="col-md-8"></div>
+					<div class="col-md-4">
+						<a class="btn btn-primary" href="">Continue</a>
+					</div>
+
+				</div>
+					</td>
+
+				  </tbody>
+				  <!--Table body-->
+			</table>
 			</div>
-
-
-			<!--Table-->
-<table id="tablePreview" class="table">
-<!--Table head-->
-  <thead>
-    <tr>
-      <th>#</th>
-      <th> Mobile Money payment options</th>
-	  <th> Our Wakala number </th>
-
-    </tr>
-  </thead>
-  <!--Table head-->
-  <!--Table body-->
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td><img  src="{% static 'images/mobile/airtelmoney.png' %}" class="girl img-responsive" alt="" style="height:120px; width:120px;"/></td>
-      <td>#</td>
-
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td><img  src="{% static 'images/mobile/TigoPesa.png' %}" class="girl img-responsive" alt="" style="height:120px; width:120px;"/></td>
-      <td>#0677073037</td>
-
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td><img  src="{% static 'images/mobile/mpesa.png' %}" class="girl img-responsive" alt="" style="height:120px; width:120px;"/></td>
-      <td>#5154661</td>
-
-    </tr>
-  </tbody>
-  <!--Table body-->
-</table>
-<!--Table-->
-
 
 
 		</div>
