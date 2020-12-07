@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from store.models import Product, Category, SubCategory
+
+from django.shortcuts import render,get_object_or_404, redirect
+from store.models import Product,Category,SubCategory,SubSubCategory
 from django.views.generic import UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
@@ -143,6 +144,42 @@ class SubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView)
 
 
 def delete_sub_category(request, id):
-    product = get_object_or_404(Category, id=id)
-    product.delete()
-    return redirect('Product_sub_category')
+	product = get_object_or_404(Category, id=id)
+	product.delete()
+	return redirect('Product_sub_category')
+
+
+
+
+def Product_sub_sub_category(request):
+	sub_sub_category = SubSubCategory.objects.all()
+	context = {
+	 'sub_sub_category':sub_sub_category
+	}
+	return render(request, 'staff/product-sub-sub-category.html',context)
+
+
+class SubSubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+    model = SubSubCategory
+    template_name = 'staff/sub-sub-category-edit.html'
+    fields = ['name']
+    #form_class = forms.ProductForm
+    # success_url = '/'
+    login_url = 'login'
+    
+
+    def form_valid(self, form):
+        form.instance.user =self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        sub_sub_category=self.get_object()
+        if self.request.user == sub_sub_category.author:
+            return True
+        return False
+
+
+def delete_sub_sub_category(request, id):
+	product = get_object_or_404(Category, id=id)
+	product.delete()
+	return redirect('Product_sub_sub_category')
