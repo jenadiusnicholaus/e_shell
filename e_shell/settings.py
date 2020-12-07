@@ -36,9 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+
+    # our own app
     'authentication',
     'store',
     'staff',
+    # third part
 ]
 
 MIDDLEWARE = [
@@ -89,6 +93,7 @@ DATABASES = {
         'USER': 'totaltegeta',
         'PASSWORD': 'Totaltegeta',
         'HOST': 'localhost',
+
         'PORT': '',
     }
 }

@@ -1,11 +1,32 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+
 
 class UserSignUpForm(forms.Form):
-    username = forms.CharField()
-    email = forms.EmailField()
-    mobile = forms.IntegerField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'placeholder': 'Enter your username'
+        }
+    ))
+    email = forms.CharField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder':'Enter your Email'
+            }
+        )
+    )
+    mobile = forms.CharField(widget=forms.NumberInput(
+        attrs={
+            'placeholder': 'Enter your phone number'
+        }
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': ' Enter password'
+    }))
+    password2 = forms.CharField(label='confirm password', widget=forms.PasswordInput(
+        attrs={
+            'placeholder': 'Confirm password'
+        }
+    ))
 
 
 class SinInForm(forms.Form):
@@ -13,9 +34,6 @@ class SinInForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 
-
-
 class loginForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}), label='Email')
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}), label='Password')
-
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}), label='Email')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Password')

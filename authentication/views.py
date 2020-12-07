@@ -25,13 +25,18 @@ class UserSignUp(View):
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            password2 = form.cleaned_data.get('repeat_password')
+            password2 = form.cleaned_data.get('password2')
             mobile = form.cleaned_data.get('mobile')
 
+            # cheking for passwords matching
+            if password != password2:
+                messages.warning(self.request, "password doesn't match")
+                return redirect('sign_up')
+
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                # if password == password2:
+
                 User.objects.create_user(email, password, mobile=mobile, username=username, is_active=True)
-                # it going to be userd later in the email sending
+                # it going to be used later in the email sending
                 user = User.objects.get(username=username, email=email)
                 # TODO send email address to activate a user if you want it to
                 messages.warning(self.request, f'Login now')
@@ -79,7 +84,7 @@ class UserSignIn(View):
                 return redirect("sign_in")
 
 
-def user_sign_out(request, ):
+def user_sign_out(request):
     # Log out the user.
     logout(request)
     # Return to homepage.
