@@ -11,6 +11,9 @@ class Category(models.Model):
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=timezone.now)
 
+    def get_absolute_url(self):
+        return reverse('Product_category')
+
     class Meta:
         verbose_name_plural = 'Product Category'
 
@@ -23,6 +26,9 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     create_on = models.DateTimeField(default=datetime.now)
+
+    def get_absolute_url(self):
+        return reverse('Product_sub_category')
 
     class Meta:
         verbose_name_plural = 'Product Sub Category'
@@ -81,7 +87,6 @@ class Product(models.Model):
         return reverse('remove_single_item_from_cart', kwargs={'pk': self.pk})
 
 
-
 class OrderItem(models.Model):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
@@ -91,6 +96,21 @@ class OrderItem(models.Model):
 
     class Meta:
         verbose_name_plural = 'Ordered products'
+    @property
+    def get_individual_product_name(self):
+        return  str(self.product.name)
+
+    @property
+    def get_individual_product_image(self):
+        return str(self.product.imageURL)
+
+    @property
+    def get_individual_product_price(self):
+        return str(self.product.price)
+
+    @property
+    def get_add_to_cart(self):
+        return str(self.product.get_add_to_cart_url())
 
     @property
     def get_total(self):
