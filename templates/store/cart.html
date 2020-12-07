@@ -60,13 +60,6 @@
 				<h3>What would you like to do next?</h3>
 				<p>Choose if you would like to pickup your order yourself or have it delivered as well as have it insurance</p>
 			</div>
-<<<<<<< HEAD
-				<div class="row">
-					<div action="/add_delivery_info/" method="post">
-						{% csrf_token%}
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<div class="chose_area">
-=======
 			<div class="row">
 				<form action="{% url 'add_delivery_info'  %}" method="post">
 					{% csrf_token%}
@@ -87,75 +80,43 @@
 								<label>Insurance my order</label>
 							</li>
 						</ul>
->>>>>>> 625381136d19b8267998106b75a801e563b6df38
-
-								<ul class="user_option">
-									<li>
-										<input type="checkbox" name="pickup_order_at_station" value="Pickup order at Station">
-										<label>Pickup order at Station</label>
-									</li>
-									<li>
-										<input type="checkbox"name="deliver_my_order" value="Deliver my order">
-										<label>Deliver my order</label>
-									</li>
-									<li>
-										<input type="checkbox" name="insure_my_order" value="Insurance my order">
-										<label>Insurance my order</label>
-									</li>
-								</ul>
-
-
-							</div>
-						</div>
-						<div class="col-md-6">
-
-							<div class="total_area">
-							<ul>
-								<li>Cart Items <span>{{ cart_items.get_cart_items}}</span></li>
-								<li>Cart Sub Total <span>$59</span></li>
-								<li>Vat <span>$2</span></li>
-								<li>Shipping Cost <span>Free</span></li>
-								<li>Total <span>${{ cart_items.get_cart_total|floatformat:2}}</span></li>
-							</ul>
-								<button type="submit" class="btn btn-default check_out" >Check Out</button>
-						</div>
-
-
-
-
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-xs-12 col-sm-6">
-
-						<div class="chose_area">
-								<ul class="user_option">
-									<li>
-										<input type="checkbox" name="same_day_delivery" value="Same day delivery">
-										<label>Same day delivery</label>
-									</li>
-									<li>
-										<input type="checkbox" name="express_delivery" value="Express delivery">
-										<label>Express delivery</label>
-									</li>
-									<li>
-										<input type="checkbox" name="standard_delivery" value="Standard delivery">
-										<label>Standard delivery</label>
-									</li>
-								</ul>
-
-							</div>
-
-
-
-
-
 
 
 					</div>
 				</div>
+				<div class="col-sm-4">
+					<div class="chose_area">
+						<ul class="user_option">
+							<li>
+								<input type="checkbox" name="same_day_delivery" value="Same day delivery">
+								<label>Same day delivery</label>
+							</li>
+							<li>
+								<input type="checkbox" name="express_delivery" value="Express delivery">
+								<label>Express delivery</label>
+							</li>
+							<li>
+								<input type="checkbox" name="standard_delivery" value="Standard delivery">
+								<label>Standard delivery</label>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="total_area">
+						<ul>
+							<li>Cart Items <span>{{ cart_items.get_cart_items}}</span></li>
+							<li>Cart Sub Total <span>$59</span></li>
+							<li>Vat <span>$2</span></li>
+							<li>Shipping Cost <span>Free</span></li>
+							<li>Total <span>${{ cart_items.get_cart_total|floatformat:2}}</span></li>
+						</ul>
+							<button type="submit" class="btn btn-default check_out" >Check Out</button>
+					</div>
+				</div>
+			</form>
+			</div>
 		</div>
 	</section><!--/#do_action-->
 
