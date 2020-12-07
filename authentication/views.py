@@ -30,7 +30,7 @@ class UserSignUp(View):
 
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 # if password == password2:
-                User.objects.create_user(email, password, mobile=mobile, username=username, is_active=False)
+                User.objects.create_user(email, password, mobile=mobile, username=username, is_active=True)
                 # it going to be userd later in the email sending
                 user = User.objects.get(username=username, email=email)
                 # TODO send email address to activate a user if you want it to
@@ -87,7 +87,6 @@ def user_sign_out(request, ):
     return redirect('sign_in')
 
 
-
 def staff_login(request):
     if request.method == 'POST':
         form = loginForm(request.POST)
@@ -96,15 +95,15 @@ def staff_login(request):
             password = form.cleaned_data['password']
             user = authenticate(email=email, password=password)
             if user is not None and user.is_staff:
-                login(request,user)
+                login(request, user)
                 messages.success(request, 'succesfull Logged in')
                 return redirect('/products')
             else:
                 messages.error(request, "Ivalid Username/Password Or You're not Staff")
                 return redirect('login')
     form = loginForm()
-    context={
-     'form':form
+    context = {
+        'form': form
     }
     return render(request, 'staff/login.html', context)
 
@@ -114,9 +113,7 @@ def staff_logout(request, ):
     messages.info(request, 'Your signed Out, Login again')
     return redirect('login')
 
-
-    
-#========================================== for reference purpose===========================================#
+# ========================================== for reference purpose===========================================#
 
 # def login(request):
 #     next = request.POST.get('next', request.GET.get('next', ''))
@@ -136,10 +133,4 @@ def staff_logout(request, ):
 #             return HttpResponseRedirect(settings.LOGIN_URL)
 #     return render(request, "login.html")
 
-#===========================================dont delete these codes are important================================#
-
-
-
-
-
-
+# ===========================================dont delete these codes are important================================#

@@ -32,9 +32,9 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href="{{cart_item.product.get_add_to_cart_url}}"> + </a>
-                                    <label>
+
                                         <input class="cart_quantity_input" type="text" name="quantity" value="{{cart_item.quantity}}" autocomplete="off" size="2">
-                                    </label>
+
                                     <a class="cart_quantity_down" href="{{cart_item.product.get_remove_single_item_from_cart}}"> - </a>
 								</div>
 							</td>
@@ -61,7 +61,7 @@
 				<p>Choose if you would like to pickup your order yourself or have it delivered as well as have it insurance</p>
 			</div>
 			<div class="row">
-				<form action="/add_delivery_info/" method="post">
+				<form action="{% url 'add_delivery_info'  %}" method="post">
 					{% csrf_token%}
 				<div class="col-sm-4">
 					<div class="chose_area">
