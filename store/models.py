@@ -96,9 +96,10 @@ class OrderItem(models.Model):
 
     class Meta:
         verbose_name_plural = 'Ordered products'
+
     @property
     def get_individual_product_name(self):
-        return  str(self.product.name)
+        return str(self.product.name)
 
     @property
     def get_individual_product_image(self):
@@ -117,13 +118,13 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
-    def __str__(self):
-        return f'{self.product.name} Quantity of {self.quantity}'
+    # def __str__(self):
+    #     return f'{str(self.product.name)} Quantity of {self.quantity}'
 
 
 class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     order_items = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False, null=True)
