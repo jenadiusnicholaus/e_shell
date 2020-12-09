@@ -223,12 +223,17 @@ def add_to_cart(request, pk):
             messages.success(request, 'this item was added to your cart ')
             return redirect('cart')
     else:
+        try:
+            order_item, created = OrderItem.objects.get_or_create(
 
-        order_item, created = OrderItem.objects.get_or_create(
-            session_key=request.session.session_key,
-            defaults={'customer': None}
-        )
-        order_qs = Order.objects.filter(session_key=request.session.session_key, ordered=False)
+                product=product,
+                customer=None,
+
+            )
+        except:
+            return redirect('anonymous')
+
+        order_qs = Order.objects.filter(costomer=None, ordered=False)
         if order_qs.exists():
             order = order_qs[0]
             if order.order_items.filter(product_id=product.id).exists():
@@ -242,7 +247,7 @@ def add_to_cart(request, pk):
                 return redirect('cart', )
         else:
             order = Order.objects.create(
-                session_key=request.session.session_key,
+
                 defaults={'customer': None},
                 ref_id=create_ref_code())
 
@@ -255,7 +260,9 @@ class CartIterms(LoginRequiredMixin, View):
     def get(self, orgs, *args, **kwargs):
 
         try:
+
             order = Order.objects.get(customer=self.request.user, ordered=False)
+
             context = {
                 'cart_items': order
             }
@@ -386,6 +393,21 @@ class CheckOut(View):
             pay_option = form.cleaned_data.get('pay_option')
             phone = form.cleaned_data.get('phone')
             #  added field
+            if not address1:
+                messages.warning(self.request, f'{address1} not optional')
+                return redirect('checkout')
+            if not city:
+                messages.warning(self.request, f'{city} not optional')
+                return redirect('checkout')
+            if not regiony:
+                messages.warning(self.request, f'{region} not optional')
+                return redirect('checkout')
+            if not tin_number:
+                messages.warning(self.request, f'{tin_number} not optional')
+                return redirect('checkout')
+            if not country:
+                messages.warning(self.request, f'{country} not optional')
+                return redirect('checkout')
             description = form.cleaned_data.get('description')
             shipping_address = ShippingAddress()
             shipping_address.customer = self.request.user

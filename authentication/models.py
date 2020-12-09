@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     mobile = models.CharField(max_length=15, null=True, blank=True)
-
+    session_key = models.CharField(max_length=40, null=True)
     objects = UserManager()
 
     class Meta:

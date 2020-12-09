@@ -85,9 +85,7 @@
 		</div>
 	</div><div class="container " style="width:88%;">
 		<div class="row">
-
 			<div class="col-sm-12">
-
 				{% if messages %}
                     <ul class="messages" style="background-image: linear-gradient(to right, red , yellow);">
                         {% for message in messages %}
@@ -102,7 +100,6 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-
 			</div>
 		</div>
 	</div>
@@ -126,10 +123,10 @@
 			<div class="col-sm-8">
 				<div class="shop-menu pull-right">
 					<ul class="nav navbar-nav">
+						<li></li>
 						<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 						<li><a href="{% url 'cart' %}"><span style="color:red;">
 
-								{{request.user|cart_item_count}}
 						</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
 						{% if user.is_authenticated %}
 						<li class="dropdown"><a href=""><i class="fa fa-user"></i>{{user.email}}</a></i>
@@ -153,27 +150,17 @@
 	</div>
 </div><!--/header-middle-->
 
-<div class="header-bottom"><!--header-bottom-->
+<div class="header-bottom mt-0"><!--header-bottom-->
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-9">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {% include 'store/search.html'%}
-                    </div>
+			<div class="col-sm-12">
+						{% include 'store/search.html'%}
+
                 </div>
 
 			</div>
 		</div>
-	</div><!--/header-bottom-->
+	</div>
 </div>
 
 	<!--/header-->

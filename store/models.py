@@ -58,7 +58,7 @@ class Product(models.Model):
     price = models.FloatField()
     discount = models.CharField(max_length=200, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='product_image', null=True, blank=True)
     available = models.CharField(max_length=30, null=True, blank=True)
     label = models.CharField(max_length=30, null=True)
     description = models.TextField(max_length=20, null=True)
@@ -134,10 +134,9 @@ class Order(models.Model):
     deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
     shippingAddress = models.ForeignKey('ShippingAddress', on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
-    session_key = models.CharField(max_length=40, null=True)
 
     class Meta:
-        unique_together = ('customer', 'session_key',)
+        verbose_name_plural = 'Orders'
 
     def __str__(self):
         return str(self.customer)
