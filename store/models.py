@@ -66,13 +66,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    @property  # When an image isn't uploaded for a product, return empty string to avoid errors (called in home.html)
-    def imageURL(self):
-        try:
-            url = self.image.url
-        except:
-            url = " "
-        return url
 
     def get_add_to_cart_url(self):
         return reverse('add_to_cart', kwargs={
@@ -105,7 +98,7 @@ class OrderItem(models.Model):
 
     @property
     def get_individual_product_image(self):
-        return str(self.product.imageURL)
+        return str(self.product.image)
 
     @property
     def get_individual_product_price(self):
