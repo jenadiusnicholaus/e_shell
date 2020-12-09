@@ -91,17 +91,17 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name_plural = 'Ordered products'
 
-    @property
-    def get_individual_product_name(self):
-        return str(self.product.name)
+    # @property
+    # def get_individual_product_name(self):
+    #     return str(self.product.name)
 
     # @property
     # def get_individual_product_image(self):
     #     return str(self.product.image)
 
-    @property
-    def get_individual_product_price(self):
-        return str(self.product.price)
+    # @property
+    # def get_individual_product_price(self):
+    #     return str(self.product.price)
 
     @property
     def get_add_to_cart(self):
