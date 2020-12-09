@@ -120,14 +120,17 @@
 					<a href="{%url 'home'%}"><img src="" alt=""  style="width:50px; height:50px;" /></a>
 				</div>
 				<div>
-					<h3><Strong><span style="color:red;">Vel</span>del</Strong></h3>
+					<h3><Strong><span style="color:#ff0000;">Vel</span>del</Strong></h3>
 				</div>
 			</div>
 			<div class="col-sm-8">
 				<div class="shop-menu pull-right">
 					<ul class="nav navbar-nav">
 						<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-						<li><a href="{% url 'cart' %}"><span style="color:red;">{{request.user|cart_item_count}}</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
+						<li><a href="{% url 'cart' %}"><span style="color:red;">
+
+								{{request.user|cart_item_count}}
+						</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
 						{% if user.is_authenticated %}
 						<li class="dropdown"><a href=""><i class="fa fa-user"></i>{{user.email}}</a></i>
 							<ul role="menu" class="sub-menu">

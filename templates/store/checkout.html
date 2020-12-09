@@ -3,208 +3,170 @@
 {% block content %}
 	<section id="cart_items">
 		<div class="container">
-			<div class="breadcrumbs">
-				<ol class="breadcrumb">
-				  <li><a href="#">Home</a></li>
-				  <li class="active">Check out</li>
-				</ol>
-			</div><!--/breadcrums-->
+            <form action="{% url 'checkout'%}" method="post">
+                {% csrf_token %}
+                <div class="breadcrumbs">
+                    <ol class="breadcrumb">
+                      <li><a href="#">Home</a></li>
+                    </ol>
+                </div><!--/breadcrums-->
 
-			<div class="register-req">
-				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
-			</div><!--/register-req-->
+<!--{#                <div class="register-req">#}-->
+<!--{#                    <p></p>#}-->
+<!--{#                </div>&lt;!&ndash;/register-req&ndash;&gt;#}-->
 
-			<div class="shopper-informations">
-				<div class="row">
+                <div class="shopper-informations">
+                    <div class="row">
+                        <div class="col-sm-12 clearfix">
 
-					<div class="col-sm-12 clearfix">
+                            <div class="col-sm-8 clearfix">
+                                <div class="bill-to">
+                                    <p>Bill To</p>
 
-					<div class="col-sm-3">
-						<div class="shopper-info">
-							<p>Shopper Information</p>
-							<form>
-                                <label>
-                                    <input type="text" placeholder="Display Name">
-                                </label>
-                                <label>
-                                    <input type="text" placeholder="User Name">
-                                </label>
-                                <label>
-                                    <input type="password" placeholder="Password">
-                                </label>
-                                <label>
-                                    <input type="password" placeholder="Confirm password">
-                                </label>
-                            </form>
-							<a class="btn btn-primary" href="">Get Quotes</a>
-							<a class="btn btn-primary" href="">Continue</a>
-						</div>
-					</div>
-					<div class="col-sm-5 clearfix">
+                                    <div class="form-one">
 
-						<div class="bill-to">
-							<p>Bill To</p>
-							<div class="form-one">
-								<form>
-									<input type="text" placeholder="Company Name">
-									<input type="text" placeholder="Email*">
-									<input type="text" placeholder="Title">
-									<input type="text" placeholder="First Name *">
-									<input type="text" placeholder="Middle Name">
-									<input type="text" placeholder="Last Name *">
-									<input type="text" placeholder="Address 1 *">
-									<input type="text" placeholder="Address 2">
-								</form>
-							</div>
-							<div class="form-two">
-								<form>
-									<input type="text" placeholder="Zip / Postal Code *">
-									<select>
-										<option>-- Country --</option>
-										<option>Tanzania</option>
-										<option>Kenya</option>
-										<option>Uganda</option>
-										<option>Rwanda</option>
-										<option>Burundi</option>
-										<option>Congo</option>
-									</select>
-									<select>
-										<option>-- State / Province / Region --</option>
-										<option>Tanzania</option>
-										<option>Kenya</option>
-										<option>Uganda</option>
-										<option>Rwanda</option>
-										<option>Burundi</option>
-										<option>Congo</option>
-									</select>
-									<input type="text" placeholder="Phone Number*">
-								</form>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="order-message">
-							<p>Shipping Order</p>
-							<textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-							<label><input type="checkbox"> Shipping to bill address</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="review-payment">
-				<h2>Order Summary</h2>
-			</div>
+                                             {{ form.address1}}
+                                            <hr>
 
-			<div class="table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
-							<td class="total">Total</td>
-							<td></td>
-						</tr>
-					</thead>
-					<tbody>
-					{% for order_item in order.order_items.all %}
-						<tr>
-							<td class="cart_product">
-								<a href=""><img style="width:50px; height:50px;" src="{{ order_item.product.image.url}}" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">{{order_item.product.name}}</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>${{order_item.product.price}}</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href="{{order_item.product.get_add_to_cart_url}}"> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="{{order_item.quantity}}" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href="{{order_item.product.get_remove_single_item_from_cart}}"> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">${{order_item.get_total}}</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href="{{order_item.product.get_remove_from_cart_url}}"><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-					{%endfor%}
-					</tbody>
-				</table>
-			</div>
-				<div class="review-payment mb-5 p-5">
-					<h2>Payments option</h2>
-				</div>
-				<br>
-				<br>
-			<div class="payment-options">
+                                             {{ form.address2}}
+                                             <hr>
 
-<!--					<span>-->
-<!--						<label><input type="checkbox"> Direct Bank Transfer</label>-->
-<!--					</span>-->
-<!--					<span>-->
-<!--						<label><input type="checkbox"> Check Payment</label>-->
-<!--					</span>-->
-<!--					<span>-->
-<!--						<label><input type="checkbox"> Paypal</label>-->
-<!--					</span>-->
-<!--				<h3>Or</h3>-->
-				<table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu">
-							<td class="image">Sno</td>
-							<td class="description">Select</td>
-							<td class="price">Mobile Money payment options</td>
-							<td class="quantity">Our Wakala number </td>
+                                             {{ form.city}}
+                                             <hr>
+
+                                             {{ form.region}}
+                                             <hr>
 
 
-						</tr>
-					</thead>
-				  <!--Table head-->
-				  <!--Table body-->
-					<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td><span><label><input type="checkbox"> </label></span></td>
-						<td><img  src="{% static 'images/mobile/airtelmoney.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
-						<td>#784979037</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td><span><label><input type="checkbox"> </label></span></td>
-						<td><img  src="{% static 'images/mobile/TigoPesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
-					  	<td>#0677073037</td>
+                                    </div>
+                                    <div class="form-two">
+                                            {{ form.zipcode}}
+                                            <hr>
+                                            {{ form.country}}
+                                            <hr>
+                                            {{ form.phone}}
+                                            <hr>
+                                            {{ form.tin_number}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="order-message">
+                                    <p>Shipping Order</p>
+                                    {{ form.description }}
+                                    <label><input name="usebilling" type="checkbox"> Shipping to bill address</label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="review-payment">
+                    <h2>Order Summary</h2>
+                </div>
 
-					</tr>
-					<tr>
-					  	<th scope="row">3</th>
-						<td><span><label><input type="checkbox"> </label></span></td>
-					  	<td><img  src="{% static 'images/mobile/mpesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
-					  	<td>#5154661</td>
-					</tr>
-					<td colspan="4">
-						<div class="row mt-0">
-					<div class="col-md-8"></div>
-					<div class="col-md-4">
-						<a class="btn btn-primary" href="">Continue</a>
-					</div>
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="cart_menu">
+                                <td class="image">Item</td>
+                                <td class="description"></td>
+                                <td class="price">Price</td>
+                                <td class="quantity">Quantity</td>
+                                <td class="total">Total</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for order_item in order.order_items.all %}
+                            <tr>
+                                <td class="cart_product">
+                                    <a href=""><img style="width:50px; height:50px;" src="{{ order_item.product.image.url}}" alt=""></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="">{{order_item.product.name}}</a></h4>
+                                    <p>Web ID: 1089772</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>${{order_item.product.price}}</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+                                        <a class="cart_quantity_up" href="{{order_item.product.get_add_to_cart_url}}"> + </a>
+                                        <input class="cart_quantity_input" type="text" name="quantity" value="{{order_item.quantity}}" autocomplete="off" size="2">
+                                        <a class="cart_quantity_down" href="{{order_item.product.get_remove_single_item_from_cart}}"> - </a>
+                                    </div>
+                                </td>
+                                <td class="cart_total">
+                                    <p class="cart_total_price">${{order_item.get_total}}</p>
+                                </td>
+                                <td class="cart_delete">
+                                    <a class="cart_quantity_delete" href="{{order_item.product.get_remove_from_cart_url}}"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+                    <div class="review-payment mb-5 p-5">
+                        <h2>Payments option</h2>
+                    </div>
+                    <br>
+                    <br>
+                <div class="payment-options">
 
-				</div>
-					</td>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="cart_menu">
+                                <td class="image">Sno</td>
+                                <td class="description">Select</td>
+                                <td class="price">Mobile Money payment options</td>
+                                <td class="quantity">Our Wakala number </td>
 
-				  </tbody>
-				  <!--Table body-->
-			</table>
-			</div>
+
+                            </tr>
+                        </thead>
+                      <!--Table head-->
+                      <!--Table body-->
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td><span><label><input value="Airtel Money" name="pay_option" type="radio"> </label></span></td>
+                            <td><img  src="{% static 'images/mobile/airtelmoney.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+                            <td>#784979037</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td><span><label><input name="pay_option" value="TigoPesa" type="radio" "> </label></span></td>
+                            <td><img  src="{% static 'images/mobile/TigoPesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+                            <td>#0677073037</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td><span><label><input name="pay_option" value="Mpesa" type="radio"> </label></span></td>
+                            <td><img  src="{% static 'images/mobile/mpesa.png' %}" class="girl img-responsive" alt="" style="height:50px; width:50px;"/></td>
+                            <td>#5154661</td>
+                        </tr>
+                        <td colspan="4">
+                            <div class="row mt-0">
+                        <div class="col-md-8"></div>
 
 
-		</div>
+                    </div>
+                        </td>
+
+                      </tbody>
+                      <!--Table body-->
+                </table>
+                </div>
+
+
+            </div>
+             <div class="col-md-12">
+                            <button style=" padding:10px; width:100px;"  type="submit" class="btn btn-primary" >Submit</button>
+                        </div>
+            </form>
+        </div>
+
 	</section> <!--/#cart_items-->
 
 

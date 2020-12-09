@@ -63,8 +63,9 @@ class UserSignIn(View):
             email = request.POST.get('email')
             password = request.POST.get('password')
             remember_me = request.POST.get('remember_me')
-            user_auth = authenticate(email=email, password=password)
 
+            user_auth = authenticate(email=email, password=password)
+    
             if user_auth:
                 # we need to check if the auth_user is activate to our system
                 if user_auth.is_active:

@@ -19,14 +19,9 @@ urlpatterns = [
     path('delete_sub_category/<int:id>', delete_sub_category, name='delete_sub_category'),
 
     path('products-sub-sub-category/', Product_sub_sub_category, name='Product_sub_sub_category'),
-	path('edit_sub_sub_category/<int:pk>/', SubSubCategoryUpdateView.as_view(), name='edit_sub_sub_category'),
-	path('delete_sub_sub_category/<int:id>', delete_sub_sub_category, name='delete_sub_sub_category'),
-
+    path('edit_sub_sub_category/<int:pk>/', SubSubCategoryUpdateView.as_view(), name='edit_sub_sub_category'),
+    path('delete_sub_sub_category/<int:id>', delete_sub_sub_category, name='delete_sub_sub_category'),
 
     path('login/', staff_login, name='login'),
     path('logout/', staff_logout, name='logout')
 ]
-
-
-
-	

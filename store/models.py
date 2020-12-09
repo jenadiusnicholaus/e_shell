@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
+from django_countries.fields import CountryField
 
 from e_shell import settings
 
@@ -93,6 +94,7 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False, null=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    session_key = models.CharField(max_length=40, null=True)
 
     class Meta:
         verbose_name_plural = 'Ordered products'
@@ -124,13 +126,18 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+                                 related_name='order')
     date_ordered = models.DateTimeField(auto_now_add=True)
     order_items = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False, null=True)
     deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
     shippingAddress = models.ForeignKey('ShippingAddress', on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
+    session_key = models.CharField(max_length=40, null=True)
+
+    class Meta:
+        unique_together = ('customer', 'session_key',)
 
     def __str__(self):
         return str(self.customer)
@@ -176,13 +183,21 @@ class ShippingAddress(models.Model):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     # order must have shipping address and not viscera
     # order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    address = models.CharField(max_length=200, null=True)
+    address1 = models.CharField(max_length=200, null=True)
+    address2 = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
-    state = models.CharField(max_length=200, null=True)
+    region = models.CharField(max_length=200, null=True)
     zipcode = models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    phone = models.CharField(max_length=20, null=True)
+    tin_number = models.CharField(max_length=10, null=True)
+    country = CountryField(null=True)
     # added field
     description = models.CharField(max_length=200, null=True)
+    payment_option = models.CharField(max_length=20, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Shipping address'
 
     def __str__(self):
-        return self.address
+        return str(self.customer)

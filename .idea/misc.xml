@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9" project-jdk-type="Python SDK" />
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Unknown virtualenv at ~/PycharmProjects/e_shell/venv" project-jdk-type="Python SDK" />
->>>>>>> dea6e1078619a4c8444e5df8a2631a3b72c136c1
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (e_shell)" project-jdk-type="Python SDK" />
->>>>>>> 625381136d19b8267998106b75a801e563b6df38
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (e_shell)" project-jdk-type="Python SDK" />
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />
   </component>

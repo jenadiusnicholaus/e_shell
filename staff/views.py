@@ -144,19 +144,19 @@ class SubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView)
 
 
 def delete_sub_category(request, id):
-	product = get_object_or_404(Category, id=id)
-	product.delete()
-	return redirect('Product_sub_category')
+    product = get_object_or_404(Category, id=id)
+    product.delete()
+    return redirect('Product_sub_category')
 
 
 
 
 def Product_sub_sub_category(request):
-	sub_sub_category = SubSubCategory.objects.all()
-	context = {
-	 'sub_sub_category':sub_sub_category
-	}
-	return render(request, 'staff/product-sub-sub-category.html',context)
+    sub_sub_category = SubSubCategory.objects.all()
+    context = {
+     'sub_sub_category':sub_sub_category
+    }
+    return render(request, 'staff/product-sub-sub-category.html',context)
 
 
 class SubSubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
@@ -180,6 +180,6 @@ class SubSubCategoryUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateVi
 
 
 def delete_sub_sub_category(request, id):
-	product = get_object_or_404(Category, id=id)
-	product.delete()
-	return redirect('Product_sub_sub_category')
+    product = get_object_or_404(Category, id=id)
+    product.delete()
+    return redirect('Product_sub_sub_category')
