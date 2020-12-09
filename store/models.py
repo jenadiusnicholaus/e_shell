@@ -66,7 +66,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
     def get_add_to_cart_url(self):
         return reverse('add_to_cart', kwargs={
             'pk': self.pk
@@ -92,9 +91,9 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name_plural = 'Ordered products'
 
-    @property
-    def get_individual_product_name(self):
-        return str(self.product.name)
+    # @property
+    # def get_individual_product_name(self):
+    #     return str(self.product.name)
 
     @property
     def get_individual_product_image(self):
