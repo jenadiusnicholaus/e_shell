@@ -192,7 +192,7 @@ def cart(request):
 
     return render(request, 'store/cart.html', context)
 
-
+@login_required()
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.user.is_authenticated:
