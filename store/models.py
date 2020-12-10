@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
 from django_countries.fields import CountryField
-
 from e_shell import settings
 
 
@@ -61,7 +60,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_image', null=True, blank=True)
     available = models.CharField(max_length=30, null=True, blank=True)
     label = models.CharField(max_length=30, null=True)
-    description = models.TextField(max_length=20, null=True)
+    description = models.TextField(max_length=500, null=True)
 
     class Meta:
         verbose_name_plural = 'Product'
@@ -98,7 +97,7 @@ class OrderItem(models.Model):
     @property
     def get_individual_product_name(self):
         try:
-            product_name =self.product.name
+            product_name = self.product.name
         except:
             return None
 
@@ -138,7 +137,6 @@ class OrderItem(models.Model):
         except:
             return None
         return total
-
 
     def __str__(self):
         return f'{self.product} Quantity of {self.quantity}'

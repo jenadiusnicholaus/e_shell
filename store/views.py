@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
@@ -164,7 +164,7 @@ def edit_product(request, pk):
                     return redirect('cart')
             except ObjectDoesNotExist as e:
 
-                raise e
+                return redirect('checkour')
             # serialize in new friend object in json
             # serialize_instance = serializers.serialize('json', [instance])
             # send to client side.
@@ -367,7 +367,13 @@ class CheckOut(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            order = Order.objects.get(customer=self.request.user, ordered=False)
+            try:
+
+                order = Order.objects.get(customer=self.request.user, ordered=False)
+            except ObjectDoesNotExist as e:
+                messages.warning( request,'No Product to checkout')
+                return redirect('home')
+
             form = CheckoutForm()
             context = {
                 'order': order,
