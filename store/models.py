@@ -63,9 +63,13 @@ class Product(models.Model):
     label = models.CharField(max_length=30, null=True)
     description = models.TextField(max_length=20, null=True)
 
+    class Meta:
+        verbose_name_plural = 'Product'
+
     def __str__(self):
         return self.name
 
+    @property
     def get_add_to_cart_url(self):
         return reverse('add_to_cart', kwargs={
             'pk': self.pk
@@ -88,32 +92,56 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     session_key = models.CharField(max_length=40, null=True)
 
-    class Meta:
-        verbose_name_plural = 'Ordered products'
+    # class Meta:
+    #     verbose_name_plural = 'Ordered products'
+    #
+    @property
+    def get_individual_product_name(self):
+        try:
+            product_name =self.product.name
+        except:
+            return None
 
-    # @property
-    # def get_individual_product_name(self):
-    #     return str(self.product.name)
+        return product_name
 
-    # @property
-    # def get_individual_product_image(self):
-    #     return str(self.product.image)
+    @property
+    def get_individual_product_image(self):
+        try:
+            image = self.product.image.url
+        except:
+            return None
 
-    # @property
-    # def get_individual_product_price(self):
-    #     return str(self.product.price)
+        return image
+
+    @property
+    def get_individual_product_price(self):
+        try:
+            price = self.product.price
+        except:
+            return None
+        return price
 
     @property
     def get_add_to_cart(self):
-        return str(self.product.get_add_to_cart_url())
+        try:
+
+            add_to_cart = self.get_add_to_cart()
+        except:
+            return None
+
+        return add_to_cart
 
     @property
     def get_total(self):
-        total = self.product.price * self.quantity
+        try:
+            total = self.product.price * self.quantity
+        except:
+            return None
         return total
 
+
     def __str__(self):
-        return f'{str(self.product.name)} Quantity of {self.quantity}'
+        return f'{self.product} Quantity of {self.quantity}'
 
 
 class Order(models.Model):
@@ -145,8 +173,11 @@ class Order(models.Model):
     # Getting the total value of the cart
     @property
     def get_cart_total(self):
-        orderitems = self.order_items.all()
-        total = sum([item.get_total for item in orderitems])
+        try:
+            orderitems = self.order_items.all()
+            total = sum([item.get_total for item in orderitems])
+        except:
+            return None
         return total
 
     # Getting the total value of the item

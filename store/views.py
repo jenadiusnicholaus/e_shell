@@ -399,7 +399,7 @@ class CheckOut(View):
             if not city:
                 messages.warning(self.request, f'{city} not optional')
                 return redirect('checkout')
-            if not regiony:
+            if not region:
                 messages.warning(self.request, f'{region} not optional')
                 return redirect('checkout')
             if not tin_number:
