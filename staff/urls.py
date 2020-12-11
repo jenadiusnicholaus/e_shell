@@ -4,7 +4,6 @@ from authentication.views import staff_login, staff_logout
 
 urlpatterns = [
     path('staff/', products_list, name='staff_index'),
-    path('test/', test, name='test'),
 
     path('products/', products_list, name='products_list'),
     path('add_product/', add_product, name='add_product'),
@@ -30,7 +29,3 @@ urlpatterns = [
     path('login/', staff_login, name='login'),
     path('logout/', staff_logout, name='logout')
 ]
-
-
-
-	

@@ -65,7 +65,6 @@
                                    <!--  <td>$750</td>
                                     <td>Out Of Stock</td> -->
                                     <!-- <td>{{ data.price }}</td> -->
-                                   {% if data.author == request.user %}
                                      <td>
                                         <a style="color:white" href="{% url 'edit_sub_sub_category' data.id %}"><button  data-toggle="tooltip" title="Edit" class="pd-setting-ed">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
@@ -75,7 +74,11 @@
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button></a>
                                     </td>
-                                   {% endif %}
+                                   
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="12" > <h3> You have not added data yet.. </h3> </td>
                                 </tr>
                                 {% endfor %}
                             </table>
