@@ -1,5 +1,7 @@
 {% extends 'staff/staff_base.html' %}
-
+{% block title%}
+<title>Staff|Category</title>
+{% endblock title %}
 {% block contents %}
    
             <div class="breadcome-area">
@@ -19,11 +21,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="breadcomb-report">
                                             <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i style="color: white;" class="fa fa-download"></i></button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -38,14 +40,14 @@
                         <div class="product-status-wrap">
                             <h4>Category List</h4>
                             <div class="add-product">
-                                <a href="{% url 'add_product' %}">Add Category</a>
+                                <a href="{% url 'add_category' %}">Add Category</a>
                             </div>
 
                             <table>
                                 <tr>
                                   <!--   <th>Image</th> -->
                                     <th>Category Title</th>
-                                    <th>Status</th>
+                                    <th>Action</th>
                                    <!--  <th>Purchases</th> -->
                                   <!--   <th>Product sales</th>
                                     <th>Stock</th>

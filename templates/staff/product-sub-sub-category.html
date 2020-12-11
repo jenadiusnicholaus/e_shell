@@ -1,5 +1,7 @@
 {% extends 'staff/staff_base.html' %}
-
+{% block title%}
+<title>Staff|Sub-Sub Category</title>
+{% endblock title %}
 {% block contents %}
    
             <div class="breadcome-area">
@@ -14,16 +16,16 @@
                                                <!--  <i class="fa fa-home"></i> -->
                                             </div>
                                             <div class="breadcomb-ctn">
-                                                <h2>Sub category List</h2>
+                                                <h2>Sub Sub category List</h2>
                                                 <p>Welcome {{ user.username }}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="breadcomb-report">
                                             <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i style="color: white;" class="fa fa-download"></i></button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -38,14 +40,14 @@
                         <div class="product-status-wrap">
                             <h4>Sub Sub Category List</h4>
                             <div class="add-product">
-                                <a href="#">Add Sub category</a>
+                                <a href="{% url 'add_sub_sub_category' %}">Add Sub Sub category</a>
                             </div>
 
                             <table>
                                 <tr>
                                     <!-- <th>Image</th> -->
                                     <th>Sub sub Category Title</th>
-                                    <th>Status</th>
+                                    <th>Action</th>
                                    <!--  <th>Purchases</th> -->
                                     <!-- <th>Product sales</th>
                                     <th>Stock</th>

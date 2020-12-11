@@ -1,11 +1,8 @@
 {% extends 'staff/staff_base.html' %}
 {% block title%}
-<title>Staff|Edit Category</title>
+<title>Staff|Sub Sub Category</title>
 {% endblock title %}
 {% block contents %}
-
-
-            <!-- Mobile Menu end -->
             <div class="breadcome-area">
                 <div class="container-fluid">
                     <div class="row">
@@ -15,19 +12,33 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="breadcomb-wp">
                                             <div class="breadcomb-icon">
-                                                <!-- <i class="icon nalika-home"></i> -->
+                                               <!--  <i class="icon nalika-home"></i> -->
                                             </div>
                                             <div class="breadcomb-ctn">
-                                                <h2>Category Edit</h2>
-                                               <p>Welcome {{ user.username }}</p>
+                                                <h2>Add Sub Sub Category</h2>
+                                                <p>Welcome {{user.username}} </p>
+
+                                                  {% if messages %}
+                                                {% for message in messages %}
+                                                   {% if message.tags == 'success' %}
+                                                        <div class="alert alert-info text-center">
+                                                            {{message}}
+                                                        </div>
+                                                    {% elif message.tags == 'error' %}
+                                                        <div class="alert alert-danger text-center">
+                                                            {{message}}
+                                                        </div>
+                                                   {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="breadcomb-report">
                                             <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i style="color: white;" class="fa fa-download"></i></button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -44,35 +55,45 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="review-tab-pro-inner">
                                 <ul id="myTab3" class="tab-review-design">
-                                    <li class="active"><a href="#description"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Category Edit</a></li>
-                                   <!--  <li><a href="#reviews"><i class="icon nalika-picture" aria-hidden="true"></i> Pictures</a></li>
+                                    <li class="active"><a href="#description"><i class="fa fa-plus" aria-hidden="true"></i> Add sub Category</a></li>
+                                    <!-- <li><a href="#reviews"><i class="icon nalika-picture" aria-hidden="true"></i> Pictures</a></li>
                                     <li><a href="#INFORMATION"><i class="icon nalika-chat" aria-hidden="true"></i> Review</a></li> -->
                                 </ul>
                                 <div id="myTabContent" class="tab-content custom-product-edit">
-                                 <form method="post" class="form-group">
-                                    {% csrf_token %}
+                                    <form method="POST" >
+                                        {% csrf_token %}
                                         <div class="product-tab-list tab-pane fade active in" id="description">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="review-content-section">
-                                                   <!--  <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="First Name">
-                                                    </div> -->
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="fa fa-file-signature" aria-hidden="true"></i></span>
-                                                       <!--  <input type="text" class="form-control" placeholder="Product Title"> -->
-                                                       {{ form.name}}
+                                                      <!--   <input type="text" class="form-control" placeholder="First Name"> -->
+                                                      {{form.name}}
                                                     </div>
-                                                    
-                                                 <!--    <div class="input-group mg-b-pro-edt">
+                                                    <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon"><i class="fa fa-tag" aria-hidden="true"></i></span>
+                                                        <!-- <input type="text" class="form-control" placeholder="Product Title"> -->
+                                                        {{form.subcategory}}
+                                                    </div>
+                                                   <!--  <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon"><i class="fa fa-image" aria-hidden="true"></i></span>
+                                                        <input type="text" class="form-control" placeholder="Regular Price">
+                                                      
+                                                    </div> -->
+                                                <!--     <div class="input-group mg-b-pro-edt">
+                                                        <span class="input-group-addon"><i class="icon nalika-new-file" aria-hidden="true"></i></span>
+                                                        <input type="text" class="form-control" placeholder="Tax">
+
+                                                    </div> -->
+                                                   <!--  <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="icon nalika-favorites" aria-hidden="true"></i></span>
                                                         <input type="text" class="form-control" placeholder="Quantity">
                                                     </div> -->
                                                 </div>
                                             </div>
-                                           <!--  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="review-content-section">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                               <!--  <div class="review-content-section">
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                                         <input type="text" class="form-control" placeholder="Last Name">
@@ -84,7 +105,6 @@
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
                                                         <input type="text" class="form-control" placeholder="Sale Price">
-                                        
                                                     </div>
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="icon nalika-like" aria-hidden="true"></i></span>
@@ -98,15 +118,15 @@
                                                             <option value="opt5">5</option>
                                                             <option value="opt6">6</option>
                                                         </select>
-                                                </div>
-                                            </div> -->
+                                                </div> -->
+                                            </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="text-center custom-pro-edt-ds">
                                                     <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save
                                                         </button>
-                                                    <a href="{% url 'products_list' %}">
+                                                    <a href="{% url 'Product_sub_sub_category' %}">
                                                         <button type="button" class="btn btn-ctl-bt waves-effect waves-light">Discard
                                                         </button>
                                                     </a>
@@ -114,7 +134,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                 </form>
+                                    </form>
                                     <div class="product-tab-list tab-pane fade" id="reviews">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -338,7 +358,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="footer-copyright-area">
+       <!--  <div class="footer-copyright-area">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -350,19 +370,5 @@
             </div>
         </div> -->
     </div>
- <!--    <style type="text/css">
-        .img label{
-            display: none;
-        }
-        .img label{
-            display: none;
-        }
-    </style> -->
-
-<script>
-    document.getElementById("id_name").classList.add("form-control");
-    document.getElementById("id_price").classList.add("form-control");
-    document.getElementById("id_image").classList.add("form-control");
-</script>
 
 {% endblock contents %}

@@ -34,7 +34,7 @@ class SubCategory(models.Model):
         verbose_name_plural = 'Product Sub Category'
 
     def __str__(self):
-        return f'{self.name} from {self.category.name}'
+        return f'{self.name} from {self.category}'
 
 
 class SubSubCategory(models.Model):
@@ -45,9 +45,12 @@ class SubSubCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Sub sub Category'
+    
+    def get_absolute_url(self):
+        return reverse('Product_sub_sub_category')
 
     def __str__(self):
-        return f'{self.name}from {self.subcategory.name}'
+        return f'{self.name}from {self.subcategory}'
 
 
 class Product(models.Model):
@@ -64,6 +67,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('products_list')
 
     @property  # When an image isn't uploaded for a product, return empty string to avoid errors (called in home.html)
     def imageURL(self):
