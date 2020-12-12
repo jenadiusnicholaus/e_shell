@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
@@ -163,7 +163,8 @@ def edit_product(request, pk):
                     messages.success(request, 'cart was create successfully')
                     return redirect('cart')
             except ObjectDoesNotExist as e:
-                raise e
+
+                return redirect('checkour')
             # serialize in new friend object in json
             # serialize_instance = serializers.serialize('json', [instance])
             # send to client side.
@@ -174,57 +175,94 @@ def edit_product(request, pk):
     return JsonResponse({"error": " form no valid"}, status=400)
 
 
-@login_required()
 def cart(request):
     # checking if the user is authenticated
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, ordered=False).order_by('-date_ordered')
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items.order_by('-date_ordered')
-    else:
-        items = []  # when a user isn't authenticated
-        order = {'get_cart-total': 0, 'get_cart_items': 0, 'shipping': False}
-        cartItems = order['get_cart_items']
+
+    customer = request.user
+    order, created = Order.objects.get_or_create(customer=customer, ordered=False).order_by('-date_ordered')
+    items = order.orderitem_set.all()
+    cartItems = order.get_cart_items.order_by('-date_ordered')
+
+    # # items = []  # when a user isn't authenticated
+    # order, created = Order.objects.get_or_create(session_key =request.session_id, ordered=False).order_by('-date_ordered')
+    # # order = {'get_cart-total': 0, 'get_cart_items': 0, 'shipping': False}
+    # cartItems = order['get_cart_items']
 
     context = {'items': items, 'order': order, 'cartItems': cartItems}
 
     return render(request, 'store/cart.html', context)
 
-
+@login_required()
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    order_item, created = OrderItem.objects.get_or_create(
-        customer=request.user,
-        product=product
-    )
-    order_qs = Order.objects.filter(customer=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        if order.order_items.filter(product__pk=product.pk).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.success(request, 'this item quantity was updated ')
-            return redirect('cart', )
+    if request.user.is_authenticated:
+        order_item, created = OrderItem.objects.get_or_create(
+            customer=request.user,
+            product=product,
+            defaults={'session_key': request.session.session_key}
+        )
+        order_qs = Order.objects.filter(customer=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.order_items.filter(product__pk=product.pk).exists():
+                order_item.quantity += 1
+                order_item.save()
+                messages.success(request, 'this item quantity was updated ')
+                return redirect('cart', )
+            else:
+
+                order.order_items.add(order_item)
+                messages.success(request, 'This item was added to your cart ')
+                return redirect('cart', )
+
         else:
 
+            order = Order.objects.create(customer=request.user, ref_id=create_ref_code())
+
             order.order_items.add(order_item)
-            messages.success(request, 'This item was added to your cart ')
-            return redirect('cart', )
+            messages.success(request, 'this item was added to your cart ')
+            return redirect('cart')
     else:
+        try:
+            order_item, created = OrderItem.objects.get_or_create(
 
-        order = Order.objects.create(customer=request.user, ref_id=create_ref_code())
+                product=product,
+                customer=None,
 
-        order.order_items.add(order_item)
-        messages.success(request, 'this item was added to your cart ')
-        return redirect('cart')
+            )
+        except:
+            return redirect('anonymous')
+
+        order_qs = Order.objects.filter(costomer=None, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.order_items.filter(product_id=product.id).exists():
+                order_item.quantity += 1
+                order_item.save()
+                messages.success(request, 'this item quantity was updated ')
+                return redirect('cart', )
+            else:
+                order.order_items.add(order_item)
+                messages.success(request, 'This item was added to your cart ')
+                return redirect('cart', )
+        else:
+            order = Order.objects.create(
+
+                defaults={'customer': None},
+                ref_id=create_ref_code())
+
+            order.order_items.add(order_item)
+            messages.success(request, 'this item was added to your cart ')
+            return redirect('cart')
 
 
 class CartIterms(LoginRequiredMixin, View):
     def get(self, orgs, *args, **kwargs):
 
         try:
+
             order = Order.objects.get(customer=self.request.user, ordered=False)
+
             context = {
                 'cart_items': order
             }
@@ -259,7 +297,6 @@ class AddDeliveryInfo(View):
             return redirect('checkout')
 
 
-@login_required
 def remove_from_cart(request, pk):
     # let get an item from thr item list
     product = get_object_or_404(Product, pk=pk)
@@ -295,7 +332,6 @@ def remove_from_cart(request, pk):
         return redirect('/')
 
 
-@login_required
 def remove_single_item_from_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
     order_qs = Order.objects.filter(
@@ -328,32 +364,70 @@ def remove_single_item_from_cart(request, pk):
 
 
 class CheckOut(View):
-    def get(self, *args, **kwargs):
-        order = Order.objects.get(customer=self.request.user, ordered=False)
-        form = CheckoutForm()
-        context = {
-            'order': order,
-            'form': form
-        }
-        return render(self.request, 'store/checkout.html', context)
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            try:
+
+                order = Order.objects.get(customer=self.request.user, ordered=False)
+            except ObjectDoesNotExist as e:
+                messages.warning( request,'No Product to checkout')
+                return redirect('home')
+
+            form = CheckoutForm()
+            context = {
+                'order': order,
+                'form': form
+            }
+            return render(self.request, 'store/checkout.html', context)
+        else:
+            messages.info(request, 'login now')
+            return redirect('sign_in')
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(customer=self.request.user, ordered=False)
         form = CheckoutForm(self.request.POST)
+
         if form.is_valid():
-            address = form.cleaned_data.get('address')
+            address1 = form.cleaned_data.get('address1')
+            address2 = form.cleaned_data.get('address2')
             city = form.cleaned_data.get('city')
-            state = form.cleaned_data.get('state')
+            region = form.cleaned_data.get('region')
             zipcode = form.cleaned_data.get('zipcode')
+            tin_number = form.cleaned_data.get('tin_number')
+            country = form.cleaned_data.get('country')
+            pay_option = form.cleaned_data.get('pay_option')
+            phone = form.cleaned_data.get('phone')
             #  added field
+            if not address1:
+                messages.warning(self.request, f'{address1} not optional')
+                return redirect('checkout')
+            if not city:
+                messages.warning(self.request, f'{city} not optional')
+                return redirect('checkout')
+            if not region:
+                messages.warning(self.request, f'{region} not optional')
+                return redirect('checkout')
+            if not tin_number:
+                messages.warning(self.request, f'{tin_number} not optional')
+                return redirect('checkout')
+            if not country:
+                messages.warning(self.request, f'{country} not optional')
+                return redirect('checkout')
             description = form.cleaned_data.get('description')
             shipping_address = ShippingAddress()
             shipping_address.customer = self.request.user
-            shipping_address.state = state
-            shipping_address.address = address
+            shipping_address.region = region
+            shipping_address.address1 = address1
+            shipping_address.address2 = address2
+            shipping_address.pay_option = pay_option
+            shipping_address.tin_number = tin_number
+            shipping_address.country = country
+            shipping_address.phone = phone
             shipping_address.city = city
             shipping_address.zipcode = zipcode
             shipping_address.description = description
+            shipping_address.payment_option = pay_option
             shipping_address.save()
 
             order.shippingAddress = shipping_address
@@ -370,7 +444,10 @@ class CheckOut(View):
                 print(payment_option)
                 messages.success(self.request, ' Chosen skrill')
                 return redirect('payment', payment_option=payment_option)
+            messages.success(self.request, 'Form submitted successfully')
+            return redirect('checkout')
         else:
+            print(form.data)
             messages.success(self.request, 'form is not ok')
             return redirect('checkout')
 

@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
-
+from django_countries.fields import CountryField
 from e_shell import settings
 
 
@@ -34,7 +34,7 @@ class SubCategory(models.Model):
         verbose_name_plural = 'Product Sub Category'
 
     def __str__(self):
-        return f'{self.name} from {self.category.name}'
+        return f'{self.name} from {self.category}'
 
 
 class SubSubCategory(models.Model):
@@ -45,9 +45,12 @@ class SubSubCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Sub sub Category'
+    
+    def get_absolute_url(self):
+        return reverse('Product_sub_sub_category')
 
     def __str__(self):
-        return f'{self.name}from {self.subcategory.name}'
+        return f'{self.name}from {self.subcategory}'
 
 
 class Product(models.Model):
@@ -57,22 +60,21 @@ class Product(models.Model):
     price = models.FloatField()
     discount = models.CharField(max_length=200, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='product_image', null=True, blank=True)
     available = models.CharField(max_length=30, null=True, blank=True)
     label = models.CharField(max_length=30, null=True)
-    description = models.TextField(max_length=20, null=True)
+    description = models.TextField(max_length=500, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Product'
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('products_list')
 
-    @property  # When an image isn't uploaded for a product, return empty string to avoid errors (called in home.html)
-    def imageURL(self):
-        try:
-            url = self.image.url
-        except:
-            url = " "
-        return url
-
+    @property
     def get_add_to_cart_url(self):
         return reverse('add_to_cart', kwargs={
             'pk': self.pk
@@ -93,44 +95,72 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False, null=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    session_key = models.CharField(max_length=40, null=True)
 
-    class Meta:
-        verbose_name_plural = 'Ordered products'
-
+    # class Meta:
+    #     verbose_name_plural = 'Ordered products'
+    #
     @property
     def get_individual_product_name(self):
-        return str(self.product.name)
+        try:
+            product_name = self.product.name
+        except:
+            return None
+
+        return product_name
 
     @property
     def get_individual_product_image(self):
-        return str(self.product.imageURL)
+        try:
+            image = self.product.image.url
+        except:
+            return None
+
+        return image
 
     @property
     def get_individual_product_price(self):
-        return str(self.product.price)
+        try:
+            price = self.product.price
+        except:
+            return None
+        return price
 
     @property
     def get_add_to_cart(self):
-        return str(self.product.get_add_to_cart_url())
+        try:
+
+            add_to_cart = self.get_add_to_cart()
+        except:
+            return None
+
+        return add_to_cart
 
     @property
     def get_total(self):
-        total = self.product.price * self.quantity
+        try:
+            total = self.product.price * self.quantity
+        except:
+            return None
         return total
 
     def __str__(self):
-        return f'{str(self.product.name)} Quantity of {self.quantity}'
+        return f'{self.product} Quantity of {self.quantity}'
 
 
 class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+                                 related_name='order')
     date_ordered = models.DateTimeField(auto_now_add=True)
     order_items = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False, null=True)
     deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
     shippingAddress = models.ForeignKey('ShippingAddress', on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Orders'
 
     def __str__(self):
         return str(self.customer)
@@ -147,8 +177,11 @@ class Order(models.Model):
     # Getting the total value of the cart
     @property
     def get_cart_total(self):
-        orderitems = self.order_items.all()
-        total = sum([item.get_total for item in orderitems])
+        try:
+            orderitems = self.order_items.all()
+            total = sum([item.get_total for item in orderitems])
+        except:
+            return None
         return total
 
     # Getting the total value of the item
@@ -176,13 +209,21 @@ class ShippingAddress(models.Model):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     # order must have shipping address and not viscera
     # order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    address = models.CharField(max_length=200, null=True)
+    address1 = models.CharField(max_length=200, null=True)
+    address2 = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
-    state = models.CharField(max_length=200, null=True)
+    region = models.CharField(max_length=200, null=True)
     zipcode = models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    phone = models.CharField(max_length=20, null=True)
+    tin_number = models.CharField(max_length=10, null=True)
+    country = CountryField(null=True)
     # added field
     description = models.CharField(max_length=200, null=True)
+    payment_option = models.CharField(max_length=20, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Shipping address'
 
     def __str__(self):
-        return self.address
+        return str(self.customer)

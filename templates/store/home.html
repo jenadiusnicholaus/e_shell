@@ -133,18 +133,18 @@
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
 					{% for product in products %}
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<div class="product-image-wrapper" >
 								<div class="single-products">
 									<div class="productinfo text-center">
 										<img style=" height:200px; width:200px;" src="{{product.image.url}}" alt="" />
-										<h2>${{product.price}}</h2>
+										<h2>TSH{{product.price}}</h2>
 										<p>{{product.name}}</p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
 									<div style="background-color:hsla(50, 33%, 25%, 0.85);" class="product-overlay">
 										<div class="overlay-content">
-											<h2>${{product.price}}</h2>
+											<h2>$TSH{product.price}}</h2>
 											<p>{{product.name}}</p>
 											<a href="{{product.get_add_to_cart_url}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											<a href="{% url 'product_details' product.pk %}" class="btn btn-default add-to-cart">Read more</a>
@@ -393,7 +393,7 @@
 											<div class="single-products">
 												<div class="productinfo text-center">
 													<img style=" height:200px; width:200px;" src="{{recommend.get_individual_product_image}}" alt="" />
-													<h2>{{recommend.get_individual_product_price}}</h2>
+													<h2>TSH{{recommend.get_individual_product_price}}</h2>
 													<p></p>
 													<a href="{{recommend.get_add_to_cart}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 												</div>
@@ -406,12 +406,12 @@
 								</div>
 
 							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>
+<!--							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">-->
+<!--								<i class="fa fa-angle-left"></i>-->
+<!--							  </a>-->
+<!--							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">-->
+<!--								<i class="fa fa-angle-right"></i>-->
+<!--							  </a>-->
 						</div>
 					</div><!--/recommended_items-->
 
