@@ -92,7 +92,6 @@ DATABASES = {
         'USER': 'totaltegeta',
         'PASSWORD': 'Totaltegeta',
         'HOST': 'localhost',
-
         'PORT': '',
     }
 }
