@@ -11,16 +11,20 @@ urlpatterns = [
     path('delete_product/<int:id>', delete_product, name='delete_product'),
 
     path('products-category/', product_category, name='Product_category'),
+    path('add_category/', add_category, name='add_category'),
     path('edit_category/<int:pk>/', CategoryUpdateView.as_view(), name='edit_category'),
     path('delete_category/<int:id>', delete_category, name='delete_category'),
 
     path('products-sub-category/', product_sub_category, name='Product_sub_category'),
+    path('add_sub_category/', add_sub_category, name='add_sub_category'),
     path('edit_sub_category/<int:pk>/', SubCategoryUpdateView.as_view(), name='edit_sub_category'),
     path('delete_sub_category/<int:id>', delete_sub_category, name='delete_sub_category'),
 
     path('products-sub-sub-category/', Product_sub_sub_category, name='Product_sub_sub_category'),
-    path('edit_sub_sub_category/<int:pk>/', SubSubCategoryUpdateView.as_view(), name='edit_sub_sub_category'),
-    path('delete_sub_sub_category/<int:id>', delete_sub_sub_category, name='delete_sub_sub_category'),
+    path('add_sub_sub_category/', add_sub_sub_category, name='add_sub_sub_category'),
+	path('edit_sub_sub_category/<int:pk>/', SubSubCategoryUpdateView.as_view(), name='edit_sub_sub_category'),
+	path('delete_sub_sub_category/<int:id>', delete_sub_sub_category, name='delete_sub_sub_category'),
+
 
     path('login/', staff_login, name='login'),
     path('logout/', staff_logout, name='logout')

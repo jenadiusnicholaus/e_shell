@@ -1,4 +1,7 @@
 {% extends 'staff/staff_base.html' %}
+{% block title%}
+<title>Staff|Add Product</title>
+{% endblock title %}
 {% block contents %}
             <div class="breadcome-area">
                 <div class="container-fluid">
@@ -31,11 +34,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="breadcomb-report">
                                             <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i style="color: white;" class="fa fa-download"></i></button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -52,12 +55,12 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="review-tab-pro-inner">
                                 <ul id="myTab3" class="tab-review-design">
-                                    <li class="active"><a href="#description"><i class="fa fa-add" aria-hidden="true"></i> Product Add</a></li>
+                                    <li class="active"><a href="#description"><i class="fa fa-plus" aria-hidden="true"></i> Product Add</a></li>
                                     <!-- <li><a href="#reviews"><i class="icon nalika-picture" aria-hidden="true"></i> Pictures</a></li>
                                     <li><a href="#INFORMATION"><i class="icon nalika-chat" aria-hidden="true"></i> Review</a></li> -->
                                 </ul>
                                 <div id="myTabContent" class="tab-content custom-product-edit">
-                                    <form method="POST" >
+                                    <form method="POST"  enctype="multipart/form-data" >
                                         {% csrf_token %}
                                         <div class="product-tab-list tab-pane fade active in" id="description">
                                         <div class="row">
@@ -119,7 +122,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <div class="text-center custom-pro-edt-ds">
                                                     <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save
                                                         </button>
