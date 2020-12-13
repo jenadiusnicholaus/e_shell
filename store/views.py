@@ -192,6 +192,7 @@ def cart(request):
 
     return render(request, 'store/cart.html', context)
 
+
 @login_required()
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -371,7 +372,7 @@ class CheckOut(View):
 
                 order = Order.objects.get(customer=self.request.user, ordered=False)
             except ObjectDoesNotExist as e:
-                messages.warning( request,'No Product to checkout')
+                messages.warning(request, 'No Product to checkout')
                 return redirect('home')
 
             form = CheckoutForm()
