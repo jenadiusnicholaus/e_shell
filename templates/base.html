@@ -127,12 +127,12 @@
 						<li></li>
 						<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 						<li><a href="{% url 'cart' %}"><span style="color:red;">
-
+                          {{user|cart_item_count}}
 						</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
 						{% if user.is_authenticated %}
 						<li class="dropdown"><a href=""><i class="fa fa-user"></i>{{user.email}}</a></i>
 							<ul role="menu" class="sub-menu">
-								<li><a style="background-color:transparent; " href="">Profile</a></li>
+								<li><a style="background-color:transparent;" href="">Profile</a></li>
 								<li><a style="background-color:transparent;" href="product-details.html">settings</a></li>
 								<li><a style="background-color:transparent;" href="checkout.html">terms</a></li>
 								<li><a style="background-color:transparent;" href="cart.html">Notifation</a></li>
