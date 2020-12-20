@@ -20,11 +20,7 @@ class CheckoutForm(forms.Form):
         'class': 'form-control',
         'placeholder': 'Region'
     }))
-    zipcode = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'zipCode'
 
-    }))
     phone = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'phone number'

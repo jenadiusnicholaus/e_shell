@@ -192,6 +192,7 @@ def cart(request):
 
     return render(request, 'store/cart.html', context)
 
+
 @login_required()
 def add_to_cart(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -371,7 +372,7 @@ class CheckOut(View):
 
                 order = Order.objects.get(customer=self.request.user, ordered=False)
             except ObjectDoesNotExist as e:
-                messages.warning( request,'No Product to checkout')
+                messages.warning(request, 'No Product to checkout')
                 return redirect('home')
 
             form = CheckoutForm()
@@ -393,7 +394,6 @@ class CheckOut(View):
             address2 = form.cleaned_data.get('address2')
             city = form.cleaned_data.get('city')
             region = form.cleaned_data.get('region')
-            zipcode = form.cleaned_data.get('zipcode')
             tin_number = form.cleaned_data.get('tin_number')
             country = form.cleaned_data.get('country')
             pay_option = form.cleaned_data.get('pay_option')
@@ -425,7 +425,6 @@ class CheckOut(View):
             shipping_address.country = country
             shipping_address.phone = phone
             shipping_address.city = city
-            shipping_address.zipcode = zipcode
             shipping_address.description = description
             shipping_address.payment_option = pay_option
             shipping_address.save()

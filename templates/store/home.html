@@ -16,45 +16,29 @@
 							<div class="item active">
 								<div class="col-sm-6">
 
-									<h1><span>Vel</span>del</h1>
-									<h2>Lorem ipsum dolor sit amet,</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<h1><span>Vel-</span>Lubricant</h1>
+									<h2>Best quality Lubricants</h2>
+									<p>Shop hustle free with our great prices</p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
 									<img src="{% static 'images/total/gear8.png' %}" class="girl img-responsive" alt="" />
-									<img src="{% static 'images/home/pricing.png' %}"  class="pricing" alt="" />
 								</div>
 							</div>
 							<div class="item">
 								<div class="col-sm-6">
 
-									<h1><span>Vel</span>del</h1>
-									<h2>Lorem ipsum dolor sit amet,</h2>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<h1><span>Vel-</span>Lubricant</h1>
+									<h2>Tanzania's Largest Lubricant distributor</h2>
+									<p>  </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
 									<img  src="{% static 'images/total/gear8.png' %}" class="girl img-responsive" alt="" />
-									<img src="{% static 'images/home/pricing.png'%}"  class="pricing" alt="" />
 								</div>
 							</div>
 
-							<div class="item">
-								<div class="col-sm-6">
 
-									<h1><span>Vel</span>del</h1>
-									<h2>Lorem ipsum dolor sit amet,</h2>
-
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{% static 'images/total/gear8.png'%}" class="girl img-responsive" alt="" />
-									<img src="{% static 'images/home/pricing.png" class="pricing" alt="" />
-								</div>
-							</div>
 
 						</div>
 
@@ -111,16 +95,16 @@
 						</div><!--/category-products-->
 
 						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
+							<h2>Our Location</h2>
+							<h3 style="text-align:center;">Total Tegeta Service Station</h3>
 							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="10000000" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">Tshs 0</b> <b class="pull-right">Tshs 10M</b>
-							</div>
-						</div><!--/price-range-->
+								<div class="mapouter"><div class="gmap_canvas"><iframe width="211" height="226" id="gmap_canvas" src="https://maps.google.com/maps?q=Total%20Petrol%20Station%20TEGETA&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://fmovies2.org"></a></div><style>.mapouter{position:relative;text-align:right;height:226px;width:211px;}.gmap_canvas {overflow:hidden;background:none!important;height:226px;width:211px;}</style></div>
 
-						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/shipping.jpg" alt="" />
-						</div><!--/shipping-->
+							</div>
+
+
+
+						</div><!--/price-range-->
 
 					</div>
 				</div>
@@ -144,7 +128,7 @@
 									</div>
 									<div style="background-color:hsla(50, 33%, 25%, 0.85);" class="product-overlay">
 										<div class="overlay-content">
-											<h2>$Tsh: {{product.price}}</h2>
+											<h2>Tsh: {{product.price}}</h2>
 											<p>{{product.name}}</p>
 											<a href="{{product.get_add_to_cart_url}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											<a href="{% url 'product_details' product.pk %}" class="btn btn-default add-to-cart">Read more</a>

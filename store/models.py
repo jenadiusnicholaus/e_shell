@@ -213,7 +213,6 @@ class ShippingAddress(models.Model):
     address2 = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     region = models.CharField(max_length=200, null=True)
-    zipcode = models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=20, null=True)
     tin_number = models.CharField(max_length=10, null=True)
