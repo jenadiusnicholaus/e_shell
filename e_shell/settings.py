@@ -24,7 +24,7 @@ SECRET_KEY = '0hfe(e_vw4(f+re+1$0qsd)8*3yc(#@$q+umczdl=#5j!$-94o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '157.245.44.120']
+ALLOWED_HOSTS = ['127.0.0.1', '157.245.44.120','www.vellubricants.com','vellubricants.com']
 
 # Application definition
 
