@@ -193,6 +193,8 @@ class Order(models.Model):
         return total
 
 
+
+
 class OrderDeliveryInfo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     pickup_order_at_station = models.CharField(max_length=200, null=True)

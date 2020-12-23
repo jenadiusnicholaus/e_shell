@@ -106,11 +106,11 @@
 				<div class="col-sm-4">
 					<div class="total_area">
 						<ul>
-							<li>Cart Items <span>{{ cart_items.get_cart_items}}</span></li>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Vat <span>$2</span></li>
+							<li>Cart Items <span>{{cart_items.order_items.count}}</span></li>
+							<li>Cart Sub Total <span>Tshs 59</span></li>
+							<li>Vat <span>Tshs 2</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>${{ cart_items.get_cart_total|floatformat:2}}</span></li>
+							<li>Total <span>Tshs {{ cart_items.get_cart_total|floatformat:2}}</span></li>
 						</ul>
 							<button type="submit" class="btn btn-default check_out" >Check Out</button>
 					</div>
