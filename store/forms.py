@@ -50,3 +50,17 @@ class EditProductForm(forms.Form):
         'class': 'form-control',
         'value': '3',
     }))
+
+
+class GuestUserForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}
+    ))
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={'class': 'form-control'}
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control'
+        }
+    ))

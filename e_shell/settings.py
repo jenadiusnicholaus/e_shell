@@ -151,3 +151,7 @@ LOGIN_URL = 'sign_in'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = "authentication.User"
+
+# settings a session key to user
+# SESSION_SAVE_EVERY_REQUEST = True
+

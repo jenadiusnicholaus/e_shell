@@ -18,26 +18,32 @@
                 <div class="shopper-informations">
                     <div class="row">
                         <div class="col-sm-12 clearfix">
+                                <div class="col-sm-4 clearfix">
+                                <div class="bill-to">
+                                    <p>Guest user</p>
+
+                                    <div class="form-one">
+                                       <p>Sign in if you are guest user</p>
+                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                                      Guest user?
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
 
                             <div class="col-sm-8 clearfix">
                                 <div class="bill-to">
                                     <p>Bill To</p>
-
                                     <div class="form-one">
-
                                              {{ form.address1}}
                                             <hr>
-
                                              {{ form.address2}}
                                              <hr>
-
                                              {{ form.city}}
                                              <hr>
-
                                              {{ form.region}}
                                              <hr>
-
-
                                     </div>
                                     <div class="form-two">
                                             {{ form.country}}
@@ -51,7 +57,7 @@
                             <div class="col-sm-4">
                                 <div class="order-message">
                                     <p>Shipping Order</p>
-                                    {{ form.description }}
+                                    {{form.description }}
                                     <label><input name="usebilling" type="checkbox"> Shipping to bill address</label>
                                 </div>
                             </div>
@@ -74,7 +80,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for order_item in order.order_items.all %}
+                        {% for order_item in order_items %}
                             <tr>
                                 <td class="cart_product">
                                     <a href=""><img style="width:50px; height:50px;" src="{{ order_item.product.image.url}}" alt=""></a>
@@ -170,5 +176,31 @@
 
 	</section> <!--/#cart_items-->
 
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+         <form  method="post" id="post-form">
+             {%csrf_token%}
+      <div class="modal-body">
+            {{guest_form}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+             </form>
+    </div>
+  </div>
+</div>
+<script>
+
+</script>
 
 {% endblock content %}

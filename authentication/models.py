@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin, ):
     is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     mobile = models.CharField(max_length=15, null=True, blank=True)
-    session_key = models.CharField(max_length=40, null=True)
+    device_id = models.CharField(max_length=300, null=True)
     objects = UserManager()
 
     class Meta:
@@ -66,10 +66,14 @@ class User(AbstractBaseUser, PermissionsMixin, ):
         Returns a string representation of this `User`.
         This string is used when a `User` is printed in the console.
         """
-        return self.email
+        if self.email:
+
+            return str(self.email)
+        else:
+            return str(self.device_id)
 
     def get_short_name(self):
-        return self.username
+        return str(self.username)
 
 
 class UserProfile(models.Model):
@@ -79,7 +83,7 @@ class UserProfile(models.Model):
     one_click_purchasing = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return str(self.user.username)
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):

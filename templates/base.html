@@ -126,8 +126,12 @@
 					<ul class="nav navbar-nav">
 						<li></li>
 						<li><a href="{% url 'checkout'%}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-						<li><a href="{% url 'cart' %}"><span style="color:red;">
-                          {{user|cart_item_count}}
+						<li><a href="{% url 'cart' %}"><span style="color:#ff0000;">
+
+                          	{{user|cart_item_count}}
+
+							{{order.cart_items_count}}
+
 						</span><i class="fa fa-shopping-cart"> </i>Cart</a></li>
 						{% if user.is_authenticated %}
 						<li class="dropdown"><a href=""><i class="fa fa-user"></i>{{user.email}}</a></i>
@@ -275,10 +279,13 @@
 	<script src="{% static 'js/price-range.js'%}"></script>
     <script src="{% static 'js/jquery.prettyPhoto.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
-
+    <script src="{% static 'js/my_script.js'%}"></script>
+    <script src="{% static 'js/cart.js'%}"></script>
+    <script src="{% static 'js/checkout.js'%}"></script>
 
 {% block javascript %}
 {% endblock javascript %}
+
 
 </body>
 </html>

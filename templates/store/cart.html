@@ -17,7 +17,7 @@
 						</tr>
 					</thead>
 					<tbody>
-                    {% for cart_item in cart_items.order_items.all %}
+                    {% for cart_item in order_items %}
 						<tr>
 							<td class="cart_product">
 								<a  href=""><img style="width:50px; height:50px;" src="{{cart_item.product.image.url}}" alt=""></a>
@@ -46,7 +46,6 @@
 							</td>
 						</tr>
                     {% endfor %}
-
 
 					</tbody>
 				</table>
@@ -106,11 +105,11 @@
 				<div class="col-sm-4">
 					<div class="total_area">
 						<ul>
-							<li>Cart Items <span>{{cart_items.order_items.count}}</span></li>
-							<li>Cart Sub Total <span>Tshs 59</span></li>
-							<li>Vat <span>Tshs 2</span></li>
+							<li>Cart Items <span>{{order.get_cart_items}}</span></li>
+							<li>Cart Sub Total <span>Tshs {{order.get_cart_total|floatformat:2}}</span></li>
+							<li>Vat <span>Tshs {{order.get_total_product_vat}}</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>Tshs {{ cart_items.get_cart_total|floatformat:2}}</span></li>
+							<li>Total <span>Tshs {{order.get_cart_total|floatformat:2}}</span></li>
 						</ul>
 							<button type="submit" class="btn btn-default check_out" >Check Out</button>
 					</div>

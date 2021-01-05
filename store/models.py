@@ -45,7 +45,7 @@ class SubSubCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Sub sub Category'
-    
+
     def get_absolute_url(self):
         return reverse('Product_sub_sub_category')
 
@@ -70,7 +70,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
     def get_absolute_url(self):
         return reverse('products_list')
 
@@ -100,6 +101,13 @@ class OrderItem(models.Model):
     # class Meta:
     #     verbose_name_plural = 'Ordered products'
     #
+    def get_product_id(self):
+        try:
+            product_id = self.product.id
+        except:
+            return None
+        return product_id
+
     @property
     def get_individual_product_name(self):
         try:
@@ -129,8 +137,7 @@ class OrderItem(models.Model):
     @property
     def get_add_to_cart(self):
         try:
-
-            add_to_cart = self.get_add_to_cart()
+            add_to_cart = self.product.get_add_to_cart_url()
         except:
             return None
 
@@ -148,6 +155,7 @@ class OrderItem(models.Model):
         return f'{self.product} Quantity of {self.quantity}'
 
 
+
 class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
@@ -158,12 +166,16 @@ class Order(models.Model):
     deliveryInfo = models.ForeignKey('OrderDeliveryInfo', on_delete=models.CASCADE, null=True)
     shippingAddress = models.ForeignKey('ShippingAddress', on_delete=models.CASCADE, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
+    session_key = models.CharField(max_length=40, null=True)
 
     class Meta:
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return str(self.customer)
+        if self.customer is not None:
+            return str(self.customer)
+        else:
+            return f'no user'
 
     @property
     def shipping(self):
@@ -184,6 +196,21 @@ class Order(models.Model):
             return None
         return total
 
+    @property
+    def get_total_product_vat(self):
+
+        total_vat =0
+        try:
+            for item in self.order_items.all():
+                total_vat += item.get_total*18/100
+        except:
+            return 0
+        return total_vat
+
+
+
+
+
     # Getting the total value of the item
     @property
     def get_cart_items_total(self):
@@ -191,8 +218,6 @@ class Order(models.Model):
         orderitems = self.order_items.all()
         total = sum([item.quantity for item in orderitems])
         return total
-
-
 
 
 class OrderDeliveryInfo(models.Model):
