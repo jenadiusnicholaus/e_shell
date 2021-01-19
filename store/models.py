@@ -57,7 +57,7 @@ class Product(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     sub_category = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
-    price = models.FloatField()
+    price = models.CharField(max_length=12, null = True)
     discount = models.CharField(max_length=200, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(upload_to='product_image', null=True, blank=True)
@@ -88,6 +88,12 @@ class Product(models.Model):
 
     def get_remove_single_item_from_cart(self):
         return reverse('remove_single_item_from_cart', kwargs={'pk': self.pk})
+
+    def get_individual_product_VAT(self):
+        VAT = float(self.price) * float(18/100)
+
+        return VAT
+
 
 
 class OrderItem(models.Model):
@@ -155,6 +161,14 @@ class OrderItem(models.Model):
         return f'{self.product} Quantity of {self.quantity}'
 
 
+    def get_toatal_VAT(self):
+
+        try:
+            totalVAT = self.product.get_individual_product_VAT() * self.quantity
+        except:
+            return 0
+        return totalVAT
+
 
 class Order(models.Model):
     ref_id = models.CharField(max_length=40, null=True)
@@ -202,7 +216,7 @@ class Order(models.Model):
         total_vat =0
         try:
             for item in self.order_items.all():
-                total_vat += item.get_total*18/100
+                total_vat += item.get_toatal_VAT()
         except:
             return 0
         return total_vat
